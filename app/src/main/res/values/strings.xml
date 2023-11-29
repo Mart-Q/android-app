@@ -1,0 +1,31 @@
+<resources>
+    <string name="app_name">MartQ</string>
+
+    // menu title
+    <string name="title_home">Home</string>
+    <string name="title_cart">Cart</string>
+    <string name="title_account">Account</string>
+
+    // recepie recomendation
+    <string name="placeholder_recipe_name">Gado Gado</string>
+    <string name="placeholder_recipe_calories">400 cal</string>
+    <string name="placeholder_recipe_cooking_time">masak dalam 5 menit</string>
+
+    // search bar
+    <string name="searchbar_hint">Cari bahan makanan</string>
+
+    // section title
+    <string name="rekomendasi_masakan_hari_ini">Rekomendasi Masakan Hari Ini</string>
+    <string name="section_mau_beli_apa">Mau beli apa?</string>
+    <string name="section_popular">Sedang banyak dicari</string>
+
+    // dummy data
+    <string name="porduct_category_sayur_buah"><![CDATA[Sayur & Buah]]></string>
+    <string name="summy_product_data_name">Saori Saus Tiram Sachet</string>
+    <string name="dummy_product_price">Rp2.000</string>
+
+    // menu title
+    <string name="menu_title_home">Home</string>
+    <string name="menu_title_cart">Cart</string>
+    <string name="menu_title_account">Account</string>
+</resources>
