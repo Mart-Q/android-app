@@ -28,4 +28,6 @@
     <string name="menu_title_home">Home</string>
     <string name="menu_title_cart">Cart</string>
     <string name="menu_title_account">Account</string>
+    <string name="title_explore">Explore</string>
+    <string name="nav_explore_title">Lihat inspirasi masakan dari bahan makanan yang kamu punya!</string>
 </resources>
