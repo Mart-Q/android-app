@@ -18,9 +18,9 @@
         tools:layout="@layout/fragment_recommendation"/>
 
     <fragment
-        android:id="@+id/navigation_cart"
+        android:id="@+id/navigation_order"
         android:name="com.bangkit.martq.ui.order.OrderFragment"
-        android:label="@string/title_cart"
+        android:label="@string/title_order"
         tools:layout="@layout/fragment_order" />
 
     <fragment

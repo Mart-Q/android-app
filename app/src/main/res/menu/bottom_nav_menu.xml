@@ -12,9 +12,9 @@
         android:title="@string/title_explore" />
 
     <item
-        android:id="@+id/navigation_cart"
+        android:id="@+id/navigation_order"
         android:icon="@drawable/ic_menu_bag"
-        android:title="@string/title_cart" />
+        android:title="@string/title_order" />
 
     <item
         android:id="@+id/navigation_account"

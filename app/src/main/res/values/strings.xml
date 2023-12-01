@@ -3,7 +3,7 @@
 
     // menu title
     <string name="title_home">Home</string>
-    <string name="title_cart">Cart</string>
+    <string name="title_order">Order</string>
     <string name="title_account">Account</string>
 
     // recepie recomendation
