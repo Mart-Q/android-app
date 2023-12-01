@@ -50,17 +50,13 @@ class OrderFragment : Fragment() {
         orderReviewBinding = LayoutOrderReviewBinding.inflate(layoutInflater)
         completeDataBinding = LayoutOrderCompleteDataBinding.inflate(layoutInflater)
 
-        bottomSheetDialog.setContentView(orderReviewBinding.root)
-
         binding.sectionCart.btnCheckout.setOnClickListener {
+            bottomSheetDialog.setContentView(orderReviewBinding.root)
             bottomSheetDialog.show()
         }
 
         orderReviewBinding.btnNext.setOnClickListener {
-            bottomSheetDialog.dismiss()
-
             bottomSheetDialog.setContentView(completeDataBinding.root)
-            bottomSheetDialog.show()
         }
 
         completeDataBinding.btnMakeOrder.setOnClickListener {
