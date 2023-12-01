@@ -14,6 +14,7 @@
     <color name="dark_navy_light">#55879D</color>
     <color name="purple">#7452D5</color>
     <color name="light_grey">#F3F4F9</color>
+    <color name="dark_grey">#727273</color>
     <color name="bg_product_0">#EBFBFF</color>
 
     // order status

@@ -7,8 +7,13 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.bangkit.martq.databinding.FragmentOrderBinding
+import com.bangkit.martq.databinding.LayoutOrderReviewBinding
+import com.google.android.material.bottomsheet.BottomSheetDialog
 
 class OrderFragment : Fragment() {
+
+    private lateinit var bottomSheetDialog: BottomSheetDialog
+    private lateinit var orderReviewBinding: LayoutOrderReviewBinding
 
     private var _binding: FragmentOrderBinding? = null
 
@@ -26,6 +31,18 @@ class OrderFragment : Fragment() {
 
         _binding = FragmentOrderBinding.inflate(inflater, container, false)
         val root: View = binding.root
+
+        bottomSheetDialog = BottomSheetDialog(requireContext())
+        orderReviewBinding = LayoutOrderReviewBinding.inflate(layoutInflater)
+        bottomSheetDialog.setContentView(orderReviewBinding.root)
+
+        binding.sectionCart.btnCheckout.setOnClickListener {
+            bottomSheetDialog.show()
+        }
+
+        orderReviewBinding.btnNext.setOnClickListener {
+            bottomSheetDialog.dismiss()
+        }
 
         return root
     }

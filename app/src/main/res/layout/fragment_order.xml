@@ -7,8 +7,12 @@
     android:orientation="vertical"
     tools:context=".ui.order.OrderFragment">
 
-    <include layout="@layout/section_order_status" />
+    <include
+        android:id="@+id/section_order_status"
+        layout="@layout/section_order_status" />
 
-    <include layout="@layout/section_cart" />
+    <include
+        android:id="@+id/section_cart"
+        layout="@layout/section_cart" />
 
 </LinearLayout>

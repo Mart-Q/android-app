@@ -44,6 +44,7 @@
         android:id="@+id/btn_generate_masakan"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:textColor="@color/white"
         android:layout_marginHorizontal="24dp"
         android:backgroundTint="@color/dark_navy_light"
         app:layout_constraintBottom_toTopOf="@id/guideline"
