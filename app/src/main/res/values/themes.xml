@@ -2,7 +2,7 @@
     <!-- Base application theme. -->
     <style name="Theme.MartQ" parent="Theme.Material3.DayNight">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/white</item>
+        <item name="colorPrimary">@color/dark_grey</item>
         <item name="colorPrimaryVariant">@color/light_blue</item>
         <item name="colorOnPrimary">@color/dark_navy_light</item>
         <!-- Secondary brand color. -->

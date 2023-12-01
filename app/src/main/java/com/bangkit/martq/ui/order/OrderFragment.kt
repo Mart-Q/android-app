@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.bangkit.martq.databinding.FragmentOrderBinding
+import com.bangkit.martq.databinding.LayoutOrderCompleteDataBinding
 import com.bangkit.martq.databinding.LayoutOrderReviewBinding
 import com.google.android.material.bottomsheet.BottomSheetDialog
 
@@ -14,6 +15,7 @@ class OrderFragment : Fragment() {
 
     private lateinit var bottomSheetDialog: BottomSheetDialog
     private lateinit var orderReviewBinding: LayoutOrderReviewBinding
+    private lateinit var completeDataBinding: LayoutOrderCompleteDataBinding
 
     private var _binding: FragmentOrderBinding? = null
 
@@ -32,8 +34,22 @@ class OrderFragment : Fragment() {
         _binding = FragmentOrderBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
+        setupOrderFlow()
+
+        return root
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+
+    fun setupOrderFlow() {
         bottomSheetDialog = BottomSheetDialog(requireContext())
+
         orderReviewBinding = LayoutOrderReviewBinding.inflate(layoutInflater)
+        completeDataBinding = LayoutOrderCompleteDataBinding.inflate(layoutInflater)
+
         bottomSheetDialog.setContentView(orderReviewBinding.root)
 
         binding.sectionCart.btnCheckout.setOnClickListener {
@@ -42,13 +58,13 @@ class OrderFragment : Fragment() {
 
         orderReviewBinding.btnNext.setOnClickListener {
             bottomSheetDialog.dismiss()
+
+            bottomSheetDialog.setContentView(completeDataBinding.root)
+            bottomSheetDialog.show()
         }
 
-        return root
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
+        completeDataBinding.btnMakeOrder.setOnClickListener {
+            bottomSheetDialog.dismiss()
+        }
     }
 }
