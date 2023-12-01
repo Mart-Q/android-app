@@ -1,10 +1,10 @@
-package com.bangkit.martq.ui.cart
+package com.bangkit.martq.ui.order
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
-class CartViewModel : ViewModel() {
+class OrderViewModel : ViewModel() {
 
     private val _text = MutableLiveData<String>().apply {
         value = "This is dashboard Fragment"

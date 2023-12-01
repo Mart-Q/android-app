@@ -1,4 +1,4 @@
-package com.bangkit.martq.ui.cart
+package com.bangkit.martq.ui.order
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -6,11 +6,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import com.bangkit.martq.databinding.FragmentCartBinding
+import com.bangkit.martq.databinding.FragmentOrderBinding
 
-class CartFragment : Fragment() {
+class OrderFragment : Fragment() {
 
-    private var _binding: FragmentCartBinding? = null
+    private var _binding: FragmentOrderBinding? = null
 
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -21,10 +21,10 @@ class CartFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val cartViewModel =
-            ViewModelProvider(this).get(CartViewModel::class.java)
+        val orderViewModel =
+            ViewModelProvider(this).get(OrderViewModel::class.java)
 
-        _binding = FragmentCartBinding.inflate(inflater, container, false)
+        _binding = FragmentOrderBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
         return root

@@ -10,8 +10,15 @@
 
     // brand colors
     <color name="light_blue">#BDEBFF</color>
+    <color name="blue">#93C5FD</color>
     <color name="dark_navy_light">#55879D</color>
     <color name="purple">#7452D5</color>
     <color name="light_grey">#F3F4F9</color>
     <color name="bg_product_0">#EBFBFF</color>
+
+    // order status
+    <color name="order_status_red">#FDF0FE</color>
+    <color name="order_status_orange">#FEF0F0</color>
+    <color name="order_status_blue">#DEF3FF</color>
+    <color name="order_status_green">#DEFFEF</color>
 </resources>
