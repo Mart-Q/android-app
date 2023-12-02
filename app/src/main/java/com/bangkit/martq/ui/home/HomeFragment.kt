@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import com.bangkit.martq.databinding.FragmentHomeBinding
 
 class HomeFragment : Fragment() {
@@ -21,20 +20,12 @@ class HomeFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val homeViewModel =
-            ViewModelProvider(this).get(HomeViewModel::class.java)
-
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        // example view mode in fragment
-//        val textView: TextView = binding.textHome
-//        homeViewModel.text.observe(viewLifecycleOwner) {
-//            textView.text = it
-//        }
-        return root
+        setupView()
 
-        setupSearchView()
+        return root
     }
 
     override fun onDestroyView() {
@@ -42,7 +33,7 @@ class HomeFragment : Fragment() {
         _binding = null
     }
 
-    private fun setupSearchView() {
+    private fun setupView() {
         with(binding) {
             searchView.setupWithSearchBar(searchBar)
             searchView
@@ -55,6 +46,9 @@ class HomeFragment : Fragment() {
 
                     false
                 }
+            btnRecipeRecom.setOnClickListener(View.OnClickListener {
+
+            })
         }
     }
 }
