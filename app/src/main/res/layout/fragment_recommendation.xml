@@ -63,7 +63,6 @@
         app:layout_constraintBottom_toTopOf="@id/guideline"
         android:text="Lihat Inspirasi Masakan"/>
 
-
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_recipes"
         android:layout_width="0dp"
