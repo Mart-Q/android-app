@@ -4,15 +4,16 @@ import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.bangkit.martq.di.Injection
+import com.bangkit.martq.repository.ProductCategoryRepository
 import com.bangkit.martq.repository.ProductRepository
 import com.bangkit.martq.ui.home.HomeViewModel
 
-class ViewModelFactory(private val productRepo: ProductRepository) : ViewModelProvider.NewInstanceFactory() {
+class ViewModelFactory(private val productRepo: ProductRepository, private val categoryRepo: ProductCategoryRepository) : ViewModelProvider.NewInstanceFactory() {
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         return when {
             modelClass.isAssignableFrom(HomeViewModel::class.java) -> {
-                HomeViewModel(productRepo) as T
+                HomeViewModel(productRepo, categoryRepo) as T
             }
             else -> throw IllegalArgumentException("Unknown ViewModel class: " + modelClass.name)
         }
@@ -27,6 +28,7 @@ class ViewModelFactory(private val productRepo: ProductRepository) : ViewModelPr
                 synchronized(ViewModelFactory::class.java) {
                     INSTANCE = ViewModelFactory(
                         Injection.provideProductRepository(context),
+                        Injection.provideProductCategoryRepository(context)
                     )
                 }
             }

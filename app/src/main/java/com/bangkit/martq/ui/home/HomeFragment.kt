@@ -7,9 +7,11 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.bangkit.martq.data.remote.response.CategoryItem
 import com.bangkit.martq.data.remote.response.ProductItem
 import com.bangkit.martq.databinding.FragmentHomeBinding
 import com.bangkit.martq.factory.ViewModelFactory
+import com.bangkit.martq.paging.categories.ListCategoryAdapter
 import com.bangkit.martq.paging.products.ListProductAdapter
 
 class HomeFragment : Fragment() {
@@ -19,10 +21,6 @@ class HomeFragment : Fragment() {
     private val viewModel by viewModels<HomeViewModel> {
         ViewModelFactory.getInstance(requireContext())
     }
-
-//    private val productAdapter: ListProductAdapter by lazy {
-//        ListProductAdapter()
-//    }
 
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -71,6 +69,10 @@ class HomeFragment : Fragment() {
         val layoutManager = LinearLayoutManager(requireContext())
         layoutManager.orientation = LinearLayoutManager.HORIZONTAL
         binding.rvProductPopular.layoutManager = layoutManager
+
+        val layoutManager2 = LinearLayoutManager(requireContext())
+        layoutManager2.orientation = LinearLayoutManager.HORIZONTAL
+        binding.rvCategory.layoutManager = layoutManager2
     }
 
     private fun updateList() {
@@ -78,11 +80,9 @@ class HomeFragment : Fragment() {
             setProducts(product.data)
         }
 
-//        viewModel.products.observe(requireActivity()) {
-//            productAdapter.submitData(lifecycle, it)
-////            findViewById<TextView>(R.id.tv_empty_list).visibility =
-////                if (it.isEmpty()) View.VISIBLE else View.GONE
-//        }
+        viewModel.category.observe(requireActivity()) { category ->
+            setCategories(category.data)
+        }
     }
 
     private fun setProducts(products: List<ProductItem>) {
@@ -100,9 +100,16 @@ class HomeFragment : Fragment() {
         })
     }
 
+    private fun setCategories(categories: List<CategoryItem>) {
 
-    private fun onProductClick(product: ProductItem) {
-        //TODO : show detailed product
+        val adapter = ListCategoryAdapter()
+        adapter.submitList(categories)
+        binding.rvCategory.adapter = adapter
 
+        adapter.setOnItemClickCallback(object : ListCategoryAdapter.OnItemClickCallback {
+            override fun onItemClicked(category: CategoryItem) {
+            }
+        })
     }
+
 }
