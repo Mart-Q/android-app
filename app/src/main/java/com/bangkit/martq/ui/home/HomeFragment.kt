@@ -77,11 +77,11 @@ class HomeFragment : Fragment() {
 
     private fun updateList() {
         viewModel.products.observe(requireActivity()) { product ->
-            setProducts(product.data)
+            setProducts(product.produk)
         }
 
         viewModel.category.observe(requireActivity()) { category ->
-            setCategories(category.data)
+            setCategories(category.kategori)
         }
     }
 

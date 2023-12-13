@@ -14,7 +14,7 @@ class ListCategoryAdapter : ListAdapter<CategoryItem, ListCategoryAdapter.MyView
 
     class MyViewHolder(val binding: ItemProductCategoryBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(category: CategoryItem){
-            binding.tvProductCategory.text = category.name
+            binding.tvProductCategory.text = category.namaKategori
         }
     }
 
