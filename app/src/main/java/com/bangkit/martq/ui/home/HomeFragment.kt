@@ -1,9 +1,12 @@
 package com.bangkit.martq.ui.home
 
 import android.os.Bundle
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
+import android.widget.PopupWindow
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
@@ -15,6 +18,7 @@ import com.bangkit.martq.factory.ViewModelFactory
 import com.bangkit.martq.paging.categories.ListCategoryAdapter
 import com.bangkit.martq.paging.products.ListProductAdapter
 
+
 class HomeFragment : Fragment() {
 
     private var _binding: FragmentHomeBinding? = null
@@ -23,8 +27,6 @@ class HomeFragment : Fragment() {
         ViewModelFactory.getInstance(requireContext())
     }
 
-    // This property is only valid between onCreateView and
-    // onDestroyView.
     private val binding get() = _binding!!
 
     override fun onCreateView(
@@ -50,6 +52,7 @@ class HomeFragment : Fragment() {
     private fun setupView() {
         with(binding) {
             searchView.setupWithSearchBar(searchBar)
+
             searchView
                 .editText
                 .setOnEditorActionListener { textView, actionId, event ->
@@ -60,8 +63,13 @@ class HomeFragment : Fragment() {
 
                     false
                 }
+
             btnRecipeRecom.setOnClickListener(View.OnClickListener {
 
+            })
+
+            binding.cardDailyRecipe.setOnClickListener(View.OnClickListener {
+                onDailyRecipeClick(it)
             })
         }
     }
@@ -119,4 +127,17 @@ class HomeFragment : Fragment() {
         })
     }
 
+    fun onDailyRecipeClick(view: View?) {
+
+        val popupView = LayoutInflater.from(activity).inflate(com.bangkit.martq.R.layout.activity_recipe, null);
+        val popupWindow = PopupWindow(
+            popupView,
+            1250,
+            WindowManager.LayoutParams.WRAP_CONTENT
+        )
+
+        popupWindow.elevation = 20f
+        popupWindow.isFocusable = true
+        popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0)
+    }
 }
