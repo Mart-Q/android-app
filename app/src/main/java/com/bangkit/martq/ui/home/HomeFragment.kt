@@ -77,6 +77,7 @@ class HomeFragment : Fragment() {
 
         val layoutManager3 = GridLayoutManager(requireContext(), 2)
         binding.rvProductsHomepage.layoutManager = layoutManager3
+        binding.rvProductsHomepage.isNestedScrollingEnabled = false
     }
 
     private fun updateList() {
