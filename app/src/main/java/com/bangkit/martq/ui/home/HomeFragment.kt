@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bangkit.martq.data.remote.response.CategoryItem
 import com.bangkit.martq.data.remote.response.ProductItem
@@ -73,6 +74,9 @@ class HomeFragment : Fragment() {
         val layoutManager2 = LinearLayoutManager(requireContext())
         layoutManager2.orientation = LinearLayoutManager.HORIZONTAL
         binding.rvCategory.layoutManager = layoutManager2
+
+        val layoutManager3 = GridLayoutManager(requireContext(), 2)
+        binding.rvProductsHomepage.layoutManager = layoutManager3
     }
 
     private fun updateList() {
@@ -90,9 +94,11 @@ class HomeFragment : Fragment() {
         val adapter = ListProductAdapter()
         adapter.submitList(products)
         binding.rvProductPopular.adapter = adapter
+        binding.rvProductsHomepage.adapter = adapter
 
         adapter.setOnItemClickCallback(object : ListProductAdapter.OnItemClickCallback {
             override fun onItemClicked(product: ProductItem) {
+                // TODO: Implement detail product
 //                val intentToDetail = Intent(this@MainActivity, DetailActivity::class.java)
 //                intentToDetail.putExtra(EXTRA_STORY, story)
 //                startActivity(intentToDetail)
