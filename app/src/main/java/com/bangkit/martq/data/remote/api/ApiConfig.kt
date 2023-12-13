@@ -14,7 +14,7 @@ class ApiConfig {
                 .addInterceptor(loggingInterceptor)
                 .build()
             val retrofit = Retrofit.Builder()
-                .baseUrl("http://10.0.2.2:9990/v1/")
+                .baseUrl("https://us-central1-capstone-martq.cloudfunctions.net/dbmartq/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(client)
                 .build()

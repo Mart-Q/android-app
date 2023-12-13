@@ -17,12 +17,12 @@ class ListProductAdapter : ListAdapter<ProductItem, ListProductAdapter.MyViewHol
     class MyViewHolder(val binding: ItemProductBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(product: ProductItem){
             Glide.with(itemView.context)
-                .load(product.images?.get(0))
+                .load(product.imageURL)
                 .placeholder(R.drawable.baseline_broken_image_24)
                 .error(R.drawable.baseline_broken_image_24)
                 .into(binding.ivProduct)
-            binding.tvProductName.text = product.title
-            binding.tvProductPrice.text = "Rp" + product.price.toString()
+            binding.tvProductName.text = product.namaProduk
+            binding.tvProductPrice.text = "Rp" + product.harga.toString()
         }
     }
 

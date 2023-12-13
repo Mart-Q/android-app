@@ -7,19 +7,16 @@ import kotlinx.parcelize.Parcelize
 @Parcelize
 data class AllCategoriesResponse(
 
-	@field:SerializedName("data")
-	val data: List<CategoryItem>,
-
-	@field:SerializedName("message")
-	val message: String
+	@field:SerializedName("kategori")
+	val kategori: List<CategoryItem>
 ) : Parcelable
 
 @Parcelize
 data class CategoryItem(
 
-	@field:SerializedName("name")
-	val name: String,
+	@field:SerializedName("id_kategori")
+	val idKategori: Int,
 
-	@field:SerializedName("id")
-	val id: Int
+	@field:SerializedName("nama_kategori")
+	val namaKategori: String
 ) : Parcelable
