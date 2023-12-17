@@ -65,7 +65,7 @@ class ProductDetailActivity : AppCompatActivity() {
         binding.btnAddToCart.setOnClickListener {
             val productName = binding.tvProductName.text.toString()
             val productPrice = binding.tvPrice.text.toString()
-            val productImage = binding.ivProduct.drawable.toString()
+            val productImage = viewModel.product.value?.produk?.imageURL.toString()
             val productQuantity = binding.tvQuantity.text.toString()
 
             val product = Cart(

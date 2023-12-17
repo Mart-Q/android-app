@@ -17,7 +17,7 @@ abstract class CartRoomDatabase: RoomDatabase() {
             if (INSTANCE == null) {
                 synchronized(CartRoomDatabase::class.java) {
                     INSTANCE = Room.databaseBuilder(context.applicationContext,
-                        CartRoomDatabase::class.java, "note_database")
+                        CartRoomDatabase::class.java, "cart_database")
                         .build()
                 }
             }

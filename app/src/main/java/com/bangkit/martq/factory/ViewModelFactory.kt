@@ -9,6 +9,7 @@ import com.bangkit.martq.repository.CartRepository
 import com.bangkit.martq.repository.ProductCategoryRepository
 import com.bangkit.martq.repository.ProductRepository
 import com.bangkit.martq.ui.home.HomeViewModel
+import com.bangkit.martq.ui.order.OrderViewModel
 import com.bangkit.martq.ui.productDetail.ProductDetailViewModel
 import com.bangkit.martq.ui.productPage.ProductsViewModel
 import com.bangkit.martq.ui.recipe.RecipeViewModel
@@ -28,6 +29,9 @@ class ViewModelFactory(private val productRepo: ProductRepository, private val c
             }
             modelClass.isAssignableFrom(ProductsViewModel::class.java) -> {
                 ProductsViewModel(productRepo) as T
+            }
+            modelClass.isAssignableFrom(OrderViewModel::class.java) -> {
+                OrderViewModel(cartRepo) as T
             }
             else -> throw IllegalArgumentException("Unknown ViewModel class: " + modelClass.name)
         }
