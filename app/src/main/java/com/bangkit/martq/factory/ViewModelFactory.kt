@@ -4,6 +4,7 @@ import android.app.Application
 import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.bangkit.martq.data.local.datastore.ProfilePreferences
 import com.bangkit.martq.di.Injection
 import com.bangkit.martq.repository.CartRepository
 import com.bangkit.martq.repository.ProductCategoryRepository
@@ -14,7 +15,12 @@ import com.bangkit.martq.ui.productDetail.ProductDetailViewModel
 import com.bangkit.martq.ui.productPage.ProductsViewModel
 import com.bangkit.martq.ui.recipe.RecipeViewModel
 
-class ViewModelFactory(private val productRepo: ProductRepository, private val categoryRepo: ProductCategoryRepository, private val cartRepo: CartRepository) : ViewModelProvider.NewInstanceFactory() {
+class ViewModelFactory(
+    private val productRepo: ProductRepository,
+    private val categoryRepo: ProductCategoryRepository,
+    private val cartRepo: CartRepository,
+    private val profilePref: ProfilePreferences
+) : ViewModelProvider.NewInstanceFactory() {
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         return when {
@@ -31,7 +37,7 @@ class ViewModelFactory(private val productRepo: ProductRepository, private val c
                 ProductsViewModel(productRepo) as T
             }
             modelClass.isAssignableFrom(OrderViewModel::class.java) -> {
-                OrderViewModel(cartRepo) as T
+                OrderViewModel(cartRepo, profilePref) as T
             }
             else -> throw IllegalArgumentException("Unknown ViewModel class: " + modelClass.name)
         }
@@ -47,7 +53,8 @@ class ViewModelFactory(private val productRepo: ProductRepository, private val c
                     INSTANCE = ViewModelFactory(
                         Injection.provideProductRepository(context),
                         Injection.provideProductCategoryRepository(context),
-                        Injection.provideCartRepository(context.applicationContext as Application)
+                        Injection.provideCartRepository(context.applicationContext as Application),
+                        Injection.provideProfilePreferences(context.applicationContext as Application),
                     )
                 }
             }

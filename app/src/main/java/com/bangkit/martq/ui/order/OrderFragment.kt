@@ -122,5 +122,13 @@ class OrderFragment : Fragment() {
         completeDataBinding.btnMakeOrder.setOnClickListener {
             bottomSheetDialog.dismiss()
         }
+
+        viewModel.getAddress().observe(requireActivity()) { address ->
+            completeDataBinding.tvAddressValue.text = address
+        }
+
+        viewModel.getPhone().observe(requireActivity()) { phone ->
+            completeDataBinding.etPhoneNumber.setText(phone)
+        }
     }
 }
