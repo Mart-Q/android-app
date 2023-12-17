@@ -78,7 +78,7 @@
             app:layout_constraintEnd_toStartOf="@id/tv_quantity"
             app:layout_constraintTop_toTopOf="@id/btn_add"
             app:layout_constraintBottom_toBottomOf="@id/btn_add"
-            android:text="+"/>
+            android:text="-"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </com.google.android.material.card.MaterialCardView>

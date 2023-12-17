@@ -8,11 +8,13 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bangkit.martq.data.local.room.Cart
+import com.bangkit.martq.data.model.ProductOrder
 import com.bangkit.martq.databinding.FragmentOrderBinding
 import com.bangkit.martq.databinding.LayoutOrderCompleteDataBinding
 import com.bangkit.martq.databinding.LayoutOrderReviewBinding
 import com.bangkit.martq.factory.ViewModelFactory
 import com.bangkit.martq.paging.carts.ListCartAdapter
+import com.bangkit.martq.paging.orderReview.ListOrderReviewAdapter
 import com.google.android.material.bottomsheet.BottomSheetDialog
 
 class OrderFragment : Fragment() {
@@ -23,8 +25,6 @@ class OrderFragment : Fragment() {
 
     private var _binding: FragmentOrderBinding? = null
 
-    // This property is only valid between onCreateView and
-    // onDestroyView.
     private val binding get() = _binding!!
 
     private val viewModel by viewModels<OrderViewModel> {
@@ -45,11 +45,6 @@ class OrderFragment : Fragment() {
         setupOrderFlow()
 
         return root
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 
     private fun setUpRecycler() {
@@ -90,10 +85,40 @@ class OrderFragment : Fragment() {
             bottomSheetDialog.show()
         }
 
+        setupOrderReview()
+        setupCompleteData()
+    }
+
+    fun setupOrderReview() {
+        val layoutManager2 = LinearLayoutManager(requireContext())
+        layoutManager2.orientation = LinearLayoutManager.VERTICAL
+        orderReviewBinding.rvProductOrder.layoutManager = layoutManager2
+
+        viewModel.products.observe(requireActivity()) { products ->
+
+            val productsOrder = mutableListOf<ProductOrder>()
+            var totalPrice = 0
+
+            for (i in products) {
+                val productOrder = ProductOrder(i.productName, i.price, i.quantity, i.price * i.quantity)
+                productsOrder.add(productOrder)
+
+                totalPrice += i.price * i.quantity
+            }
+
+            val adapter2 = ListOrderReviewAdapter()
+            adapter2.submitList(productsOrder)
+
+            orderReviewBinding.rvProductOrder.adapter = adapter2
+            orderReviewBinding.tvTotalPriceValue.text = totalPrice.toString()
+        }
+
         orderReviewBinding.btnNext.setOnClickListener {
             bottomSheetDialog.setContentView(completeDataBinding.root)
         }
+    }
 
+    fun setupCompleteData() {
         completeDataBinding.btnMakeOrder.setOnClickListener {
             bottomSheetDialog.dismiss()
         }
