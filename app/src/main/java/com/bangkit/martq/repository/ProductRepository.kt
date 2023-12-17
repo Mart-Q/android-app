@@ -10,6 +10,8 @@ class ProductRepository private constructor(
 
     suspend fun getProductById(id: Int) = apiService.getProductById(id)
 
+    suspend fun getProductsByCategory(category: String) = apiService.getProductsByCategory(category)
+
     companion object {
         @Volatile
         private var instance: ProductRepository? = null

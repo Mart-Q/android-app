@@ -19,6 +19,7 @@ import com.bangkit.martq.factory.ViewModelFactory
 import com.bangkit.martq.paging.categories.ListCategoryAdapter
 import com.bangkit.martq.paging.products.ListProductAdapter
 import com.bangkit.martq.ui.productDetail.ProductDetailActivity
+import com.bangkit.martq.ui.productPage.ProductsActivity
 
 
 class HomeFragment : Fragment() {
@@ -125,6 +126,11 @@ class HomeFragment : Fragment() {
 
         adapter.setOnItemClickCallback(object : ListCategoryAdapter.OnItemClickCallback {
             override fun onItemClicked(category: CategoryItem) {
+                val intentToProductsPage = Intent(requireContext(), ProductsActivity::class.java)
+                val id = category.namaKategori
+                intentToProductsPage.putExtra(HomeFragment.EXTRA_CATEGORY_NAME, id)
+
+                startActivity(intentToProductsPage)
             }
         })
     }
@@ -146,5 +152,6 @@ class HomeFragment : Fragment() {
     companion object {
         private const val TAG = "HomeFragment"
         const val EXTRA_ID = "extra_id"
+        const val EXTRA_CATEGORY_NAME = "extra_category_name"
     }
 }

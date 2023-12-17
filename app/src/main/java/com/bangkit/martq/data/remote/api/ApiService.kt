@@ -5,6 +5,7 @@ import com.bangkit.martq.data.remote.response.AllProductsResponse
 import com.bangkit.martq.data.remote.response.ProductDetailResponse
 import retrofit2.http.GET
 import retrofit2.http.Path
+import retrofit2.http.Query
 
 interface ApiService {
     @GET("produk")
@@ -17,4 +18,9 @@ interface ApiService {
     suspend fun getProductById(
         @Path("id") id: Int
     ): ProductDetailResponse
+
+    @GET("produk")
+    suspend fun getProductsByCategory(
+        @Query("kategori") category: String
+    ): AllProductsResponse
 }
