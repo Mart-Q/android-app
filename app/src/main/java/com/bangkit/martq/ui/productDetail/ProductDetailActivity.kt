@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.bangkit.martq.R
+import com.bangkit.martq.data.local.room.Cart
 import com.bangkit.martq.databinding.ActivityProductDetailBinding
 import com.bangkit.martq.factory.ViewModelFactory
 import com.bumptech.glide.Glide
@@ -46,6 +47,20 @@ class ProductDetailActivity : AppCompatActivity() {
 
         binding.btnBack.setOnClickListener {
             finish()
+        }
+
+        binding.btnAddToCart.setOnClickListener {
+            val productName = binding.tvProductName.text.toString()
+            val productPrice = binding.tvPrice.text.toString()
+            val productImage = binding.ivProduct.drawable.toString()
+
+            val product = Cart(
+                productName = productName,
+                price = productPrice.toInt(),
+                image = productImage
+            )
+
+            viewModel.addToCart(product)
         }
     }
 }

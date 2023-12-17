@@ -4,11 +4,13 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.bangkit.martq.data.local.room.Cart
 import com.bangkit.martq.data.remote.response.ProductDetailResponse
+import com.bangkit.martq.repository.CartRepository
 import com.bangkit.martq.repository.ProductRepository
 import kotlinx.coroutines.launch
 
-class ProductDetailViewModel(private val productRepo: ProductRepository) : ViewModel() {
+class ProductDetailViewModel(private val productRepo: ProductRepository, private val cartRepo: CartRepository) : ViewModel() {
     private val _product = MutableLiveData<ProductDetailResponse>()
     val product: LiveData<ProductDetailResponse> get() = _product
 
@@ -21,4 +23,9 @@ class ProductDetailViewModel(private val productRepo: ProductRepository) : ViewM
             }
         }
     }
+
+    fun addToCart(cart: Cart) {
+        cartRepo.insert(cart)
+    }
+
 }
