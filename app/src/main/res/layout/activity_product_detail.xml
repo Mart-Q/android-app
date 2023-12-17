@@ -30,7 +30,7 @@
         android:layout_marginHorizontal="24dp"
         android:layout_marginTop="20dp"
         android:layout_marginBottom="40dp"
-        android:src="@drawable/dummy_data_product"
+        android:src="@drawable/baseline_broken_image_24"
         app:layout_constraintTop_toBottomOf="@id/btn_back"
         app:layout_constraintBottom_toTopOf="@id/guideline"/>
 
@@ -50,7 +50,7 @@
             android:textColor="@color/black"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            android:text="Saori Saus Tiram Sachet"/>
+            tools:text="Saori Saus Tiram Sachet"/>
 
         <Button
             android:id="@+id/btn_subtract"
@@ -101,7 +101,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/btn_subtract"
             app:layout_constraintBottom_toBottomOf="@id/btn_subtract"
-            android:text="Rp2.000"/>
+            tools:text="Rp2.000"/>
 
         <Button
             android:id="@+id/btn_add_to_cart"

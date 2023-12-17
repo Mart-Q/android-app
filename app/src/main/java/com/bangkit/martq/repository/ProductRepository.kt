@@ -8,6 +8,8 @@ class ProductRepository private constructor(
 
     suspend fun getProducts() = apiService.getProducts()
 
+    suspend fun getProductById(id: Int) = apiService.getProductById(id)
+
     companion object {
         @Volatile
         private var instance: ProductRepository? = null

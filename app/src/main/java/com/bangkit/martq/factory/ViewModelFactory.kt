@@ -7,6 +7,7 @@ import com.bangkit.martq.di.Injection
 import com.bangkit.martq.repository.ProductCategoryRepository
 import com.bangkit.martq.repository.ProductRepository
 import com.bangkit.martq.ui.home.HomeViewModel
+import com.bangkit.martq.ui.productDetail.ProductDetailViewModel
 import com.bangkit.martq.ui.recipe.RecipeViewModel
 
 class ViewModelFactory(private val productRepo: ProductRepository, private val categoryRepo: ProductCategoryRepository) : ViewModelProvider.NewInstanceFactory() {
@@ -18,6 +19,9 @@ class ViewModelFactory(private val productRepo: ProductRepository, private val c
             }
             modelClass.isAssignableFrom(RecipeViewModel::class.java) -> {
                 RecipeViewModel(productRepo) as T
+            }
+            modelClass.isAssignableFrom(ProductDetailViewModel::class.java) -> {
+                ProductDetailViewModel(productRepo) as T
             }
             else -> throw IllegalArgumentException("Unknown ViewModel class: " + modelClass.name)
         }

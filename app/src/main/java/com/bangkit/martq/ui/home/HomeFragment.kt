@@ -1,5 +1,6 @@
 package com.bangkit.martq.ui.home
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.Gravity
 import android.view.LayoutInflater
@@ -17,6 +18,7 @@ import com.bangkit.martq.databinding.FragmentHomeBinding
 import com.bangkit.martq.factory.ViewModelFactory
 import com.bangkit.martq.paging.categories.ListCategoryAdapter
 import com.bangkit.martq.paging.products.ListProductAdapter
+import com.bangkit.martq.ui.productDetail.ProductDetailActivity
 
 
 class HomeFragment : Fragment() {
@@ -107,10 +109,10 @@ class HomeFragment : Fragment() {
 
         adapter.setOnItemClickCallback(object : ListProductAdapter.OnItemClickCallback {
             override fun onItemClicked(product: ProductItem) {
-                // TODO: Implement detail product
-//                val intentToDetail = Intent(this@MainActivity, DetailActivity::class.java)
-//                intentToDetail.putExtra(EXTRA_STORY, story)
-//                startActivity(intentToDetail)
+                val intentToDetail = Intent(requireContext(), ProductDetailActivity::class.java)
+                val id = product.idProduk
+                intentToDetail.putExtra(EXTRA_ID, id)
+                startActivity(intentToDetail)
             }
         })
     }
@@ -139,5 +141,10 @@ class HomeFragment : Fragment() {
         popupWindow.elevation = 20f
         popupWindow.isFocusable = true
         popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0)
+    }
+
+    companion object {
+        private const val TAG = "HomeFragment"
+        const val EXTRA_ID = "extra_id"
     }
 }
