@@ -1,6 +1,7 @@
 package com.bangkit.martq.ui.productDetail
 
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.bangkit.martq.R
@@ -49,18 +50,34 @@ class ProductDetailActivity : AppCompatActivity() {
             finish()
         }
 
+        binding.btnSubtract.setOnClickListener {
+            val quantity = binding.tvQuantity.text.toString().toInt()
+            if (quantity > 1) {
+                binding.tvQuantity.text = (quantity - 1).toString()
+            }
+        }
+
+        binding.btnAdd.setOnClickListener {
+            val quantity = binding.tvQuantity.text.toString().toInt()
+            binding.tvQuantity.text = (quantity + 1).toString()
+        }
+
         binding.btnAddToCart.setOnClickListener {
             val productName = binding.tvProductName.text.toString()
             val productPrice = binding.tvPrice.text.toString()
             val productImage = binding.ivProduct.drawable.toString()
+            val productQuantity = binding.tvQuantity.text.toString()
 
             val product = Cart(
                 productName = productName,
                 price = productPrice.toInt(),
-                image = productImage
+                image = productImage,
+                quantity = productQuantity.toInt(),
             )
 
             viewModel.addToCart(product)
+
+            Toast.makeText(this, "$productName telah ditambahkan ke keranjang", Toast.LENGTH_SHORT).show()
         }
     }
 }

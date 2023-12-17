@@ -13,6 +13,12 @@ interface CartDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     fun insert(cart: Cart)
 
+    @Query("UPDATE cart SET quantity = quantity + :quantityToAdd WHERE productName = :productName")
+    fun updateQuantity(productName: String, quantityToAdd: Int)
+
+    @Query("SELECT * FROM cart WHERE productName = :productName LIMIT 1")
+    fun getCartItemByName(productName: String): Cart?
+
     @Update
     fun update(cart: Cart)
 

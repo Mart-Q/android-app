@@ -25,11 +25,19 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
+            android:id="@+id/tv_rp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Rp"
+            app:layout_constraintStart_toStartOf="@id/tv_product_name"
+            app:layout_constraintTop_toBottomOf="@id/tv_product_name" />
+
+        <TextView
             android:id="@+id/tv_product_price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Rp4.000"
-            app:layout_constraintStart_toStartOf="@id/tv_product_name"
+            android:text="4.000"
+            app:layout_constraintStart_toEndOf="@id/tv_rp"
             app:layout_constraintTop_toBottomOf="@id/tv_product_name" />
 
         <TextView
@@ -41,10 +49,18 @@
             app:layout_constraintTop_toBottomOf="@id/tv_product_name" />
 
         <TextView
+            android:id="@+id/rp2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Rp"
+            app:layout_constraintEnd_toStartOf="@id/tv_price"
+            app:layout_constraintTop_toBottomOf="@id/tv_product_name" />
+
+        <TextView
             android:id="@+id/tv_price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Rp8.000"
+            android:text="8.000"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_product_name" />
 

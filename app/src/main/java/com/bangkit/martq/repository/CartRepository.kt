@@ -20,7 +20,16 @@ class CartRepository(application: Application) {
     fun getAllCartItems(): LiveData<List<Cart>> = mCartDao.getCartItems()
 
     fun insert(cart: Cart) {
-        executorService.execute { mCartDao.insert(cart) }
+        executorService.execute {
+            val existingCart = mCartDao.getCartItemByName(cart.productName)
+
+            if (existingCart == null) {
+                mCartDao.insert(cart)
+            } else {
+                mCartDao.updateQuantity(cart.productName, cart.quantity)
+            }
+        }
+
     }
 
     fun delete(cart: Cart) {
