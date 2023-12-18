@@ -9,7 +9,8 @@
 
     <include
         android:id="@+id/section_order_status"
-        layout="@layout/section_order_status" />
+        layout="@layout/section_order_status"
+        android:visibility="gone"/>
 
     <include
         android:id="@+id/section_cart"

@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/card_daily_recipe"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:backgroundTint="@color/light_blue"
+    app:layout_constraintTop_toBottomOf="@id/tv_section_daily_recom">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingHorizontal="9dp"
+        android:paddingVertical="10dp">
+
+        <ImageView
+            android:id="@+id/iv_daily_recipe"
+            android:layout_width="38dp"
+            android:layout_height="38dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/dummy_food"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_recipe_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:text="@string/placeholder_recipe_name"
+            android:textSize="16dp"
+            app:layout_constraintStart_toEndOf="@id/iv_daily_recipe"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_daily_recom_recipe_calories"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/placeholder_recipe_calories"
+            android:textColor="@color/purple"
+            android:textSize="14sp"
+            app:layout_constraintStart_toStartOf="@id/tv_recipe_name"
+            app:layout_constraintTop_toBottomOf="@id/tv_recipe_name" />
+
+        <ImageView
+            android:id="@+id/dot"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="6dp"
+            android:src="@drawable/dot"
+            app:layout_constraintBottom_toBottomOf="@id/tv_daily_recom_recipe_calories"
+            app:layout_constraintStart_toEndOf="@id/tv_daily_recom_recipe_calories"
+            app:layout_constraintTop_toTopOf="@id/tv_daily_recom_recipe_calories" />
+
+        <TextView
+            android:id="@+id/tv_daily_recom_recipe_cooking_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="6dp"
+            android:text="@string/placeholder_recipe_cooking_time"
+            android:textColor="@color/purple"
+            android:textSize="14sp"
+            app:layout_constraintStart_toEndOf="@id/dot"
+            app:layout_constraintTop_toBottomOf="@id/tv_recipe_name" />
+
+        <ImageButton
+            android:id="@+id/btn_add_to_favorite"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="@id/iv_daily_recipe"
+            app:layout_constraintBottom_toBottomOf="@id/iv_daily_recipe"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:background="@drawable/btn_fav_inavtive" />
+
+        <TextView
+            android:id="@+id/tv_section_bahan_makanan"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
+            android:paddingTop="16dp"
+            android:text="@string/section_daily_recipe_recom_products"
+            app:layout_constraintTop_toBottomOf="@id/tv_daily_recom_recipe_calories" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_product_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="14dp"
+            android:layout_marginHorizontal="24dp"
+            app:layout_constraintTop_toBottomOf="@id/tv_section_bahan_makanan"
+            tools:itemCount="4"
+            tools:listitem="@layout/item_cart_product" />
+
+        <Button
+            android:id="@+id/btn_add_to_cart"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/blue"
+            android:textColor="@color/purple"
+            android:textSize="12sp"
+            android:layout_marginTop="20dp"
+            android:paddingHorizontal="12dp"
+            app:layout_constraintTop_toBottomOf="@id/rv_product_list"
+            app:layout_constraintStart_toStartOf="@id/tv_section_bahan_makanan"
+            android:text="Tambahkan semua ke Keranjang"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</com.google.android.material.card.MaterialCardView>

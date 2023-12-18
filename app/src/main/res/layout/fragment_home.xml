@@ -1,120 +1,214 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".ui.home.HomeFragment">
 
-    <com.google.android.material.search.SearchBar
-        android:id="@+id/searchBar"
-        android:layout_width="match_parent"
-        android:layout_marginStart="24dp"
-        android:layout_marginEnd="80dp"
-        android:layout_height="50dp"
-        android:hint="@string/searchbar_hint"
-        android:backgroundTint="@color/light_grey"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/btn_recipe_recom"/>
-
-    <ImageButton
-        android:id="@+id/btn_recipe_recom"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_marginEnd="24dp"
-        android:layout_marginTop="16dp"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:background="@drawable/btn_recipe_recom"/>
-
-    <TextView
-        android:id="@+id/tv_section_category"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="24dp"
-        android:layout_marginTop="80dp"
-        android:textSize="18sp"
-        android:text="@string/section_mau_beli_apa"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        android:paddingBottom="100dp"
+        android:orientation="vertical">
 
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="@id/tv_section_category"
-        app:layout_constraintTop_toBottomOf="@id/tv_section_category"
-        android:src="@drawable/section_line"/>
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_category"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        app:layout_constraintTop_toBottomOf="@id/tv_section_category"
-        app:layout_constraintStart_toStartOf="@id/tv_section_category"
-        app:layout_constraintEnd_toEndOf="@id/tv_section_category"
-        android:orientation="horizontal"
-        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-        tools:spanCount="2"
-        tools:itemCount="8"
-        tools:listitem="@layout/item_product_category"/>
+            <com.google.android.material.search.SearchBar
+                android:id="@+id/searchBar"
+                android:layout_width="match_parent"
+                android:layout_marginStart="24dp"
+                android:layout_marginEnd="80dp"
+                android:layout_height="50dp"
+                android:hint="@string/searchbar_hint"
+                android:backgroundTint="@color/light_grey"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/btn_recipe_recom"/>
 
-    <com.google.android.material.search.SearchView
-        android:id="@+id/searchView"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:hint="@string/searchbar_hint"
-        app:layout_anchor="@id/searchBar"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
+            <ImageButton
+                android:id="@+id/btn_recipe_recom"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginEnd="24dp"
+                android:layout_marginTop="16dp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:background="@drawable/btn_recipe_recom"/>
 
-    <TextView
-        android:id="@+id/tv_section_daily_recom"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="20dp"
-        android:textSize="18sp"
-        android:text="@string/rekomendasi_masakan_hari_ini"
-        app:layout_constraintTop_toBottomOf="@id/rv_category"
-        app:layout_constraintStart_toStartOf="parent" />
+            <TextView
+                android:id="@+id/tv_section_category"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="24dp"
+                android:layout_marginTop="80dp"
+                android:textSize="18sp"
+                android:text="@string/section_mau_beli_apa"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
 
-    <include
-        android:id="@+id/card_daily_recipe"
-        layout="@layout/item_recipe"
-        android:layout_marginHorizontal="24dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        app:layout_constraintTop_toBottomOf="@id/tv_section_daily_recom"/>
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="@id/tv_section_category"
+                app:layout_constraintTop_toBottomOf="@id/tv_section_category"
+                android:src="@drawable/section_line"/>
 
-    <TextView
-        android:id="@+id/tv_section_popular"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="20dp"
-        android:textSize="18sp"
-        android:text="@string/section_popular"
-        app:layout_constraintTop_toBottomOf="@id/card_daily_recipe"
-        app:layout_constraintStart_toStartOf="parent" />
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_category"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                app:layout_constraintTop_toBottomOf="@id/tv_section_category"
+                app:layout_constraintStart_toStartOf="@id/tv_section_category"
+                app:layout_constraintEnd_toEndOf="@id/tv_section_category"
+                android:orientation="horizontal"
+                app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                tools:spanCount="2"
+                tools:itemCount="8"
+                tools:listitem="@layout/item_product_category"/>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_product_popular"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        app:layout_constraintTop_toBottomOf="@id/tv_section_popular"
-        app:layout_constraintStart_toStartOf="@id/rv_product_popular"
-        app:layout_constraintEnd_toEndOf="@id/tv_section_popular"
-        android:orientation="horizontal"
-        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-        tools:itemCount="8"
-        tools:listitem="@layout/item_product"/>
+            <com.google.android.material.search.SearchView
+                android:id="@+id/searchView"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:hint="@string/searchbar_hint"
+                app:layout_anchor="@id/searchBar"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.0" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+            <TextView
+                android:id="@+id/tv_section_daily_recom"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="20dp"
+                android:textSize="18sp"
+                android:text="@string/rekomendasi_masakan_hari_ini"
+                app:layout_constraintTop_toBottomOf="@id/rv_category"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/card_daily_recipe"
+                android:layout_marginHorizontal="24dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                app:layout_constraintTop_toBottomOf="@id/tv_section_daily_recom"
+                app:cardBackgroundColor="@color/light_blue">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:paddingHorizontal="9dp"
+                    android:paddingVertical="10dp">
+
+                    <ImageView
+                        android:id="@+id/iv_daily_recipe"
+                        android:layout_width="38dp"
+                        android:layout_height="38dp"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/dummy_food"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/tv_rrecipe_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:text="@string/placeholder_recipe_name"
+                        android:textSize="16dp"
+                        app:layout_constraintStart_toEndOf="@id/iv_daily_recipe"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/tv_daily_recom_recipe_calories"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/placeholder_recipe_calories"
+                        android:textColor="@color/purple"
+                        android:textSize="14sp"
+                        app:layout_constraintStart_toStartOf="@id/tv_rrecipe_name"
+                        app:layout_constraintTop_toBottomOf="@id/tv_rrecipe_name" />
+
+                    <ImageView
+                        android:id="@+id/dot"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="6dp"
+                        android:src="@drawable/dot"
+                        app:layout_constraintBottom_toBottomOf="@id/tv_daily_recom_recipe_calories"
+                        app:layout_constraintStart_toEndOf="@id/tv_daily_recom_recipe_calories"
+                        app:layout_constraintTop_toTopOf="@id/tv_daily_recom_recipe_calories" />
+
+                    <TextView
+                        android:id="@+id/tv_daily_recom_recipe_cooking_time"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="6dp"
+                        android:text="@string/placeholder_recipe_cooking_time"
+                        android:textColor="@color/purple"
+                        android:textSize="14sp"
+                        app:layout_constraintStart_toEndOf="@id/dot"
+                        app:layout_constraintTop_toBottomOf="@id/tv_rrecipe_name" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </com.google.android.material.card.MaterialCardView>
+            />
+
+            <TextView
+                android:id="@+id/tv_section_popular"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="20dp"
+                android:textSize="18sp"
+                android:text="@string/section_popular"
+                app:layout_constraintTop_toBottomOf="@id/card_daily_recipe"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_product_popular"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                app:layout_constraintTop_toBottomOf="@id/tv_section_popular"
+                app:layout_constraintStart_toStartOf="@id/rv_product_popular"
+                app:layout_constraintEnd_toEndOf="@id/tv_section_popular"
+                android:orientation="horizontal"
+                app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                tools:itemCount="8"
+                tools:listitem="@layout/item_product"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <TextView
+            android:id="@+id/tv_section_products_homepage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="20dp"
+            android:textSize="18sp"
+            android:text="@string/section_products_homepage" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_products_homepage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginHorizontal="24dp"
+            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+            tools:itemCount="8"
+            tools:listitem="@layout/item_product"/>
+    </LinearLayout>
+
+</ScrollView>

@@ -1,11 +1,16 @@
 package com.bangkit.martq.ui.home
 
+import android.content.Intent
 import android.os.Bundle
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
+import android.widget.PopupWindow
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bangkit.martq.data.remote.response.CategoryItem
 import com.bangkit.martq.data.remote.response.ProductItem
@@ -13,6 +18,9 @@ import com.bangkit.martq.databinding.FragmentHomeBinding
 import com.bangkit.martq.factory.ViewModelFactory
 import com.bangkit.martq.paging.categories.ListCategoryAdapter
 import com.bangkit.martq.paging.products.ListProductAdapter
+import com.bangkit.martq.ui.productDetail.ProductDetailActivity
+import com.bangkit.martq.ui.productPage.ProductsActivity
+
 
 class HomeFragment : Fragment() {
 
@@ -22,8 +30,6 @@ class HomeFragment : Fragment() {
         ViewModelFactory.getInstance(requireContext())
     }
 
-    // This property is only valid between onCreateView and
-    // onDestroyView.
     private val binding get() = _binding!!
 
     override fun onCreateView(
@@ -41,14 +47,10 @@ class HomeFragment : Fragment() {
         return root
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
-
     private fun setupView() {
         with(binding) {
             searchView.setupWithSearchBar(searchBar)
+
             searchView
                 .editText
                 .setOnEditorActionListener { textView, actionId, event ->
@@ -59,8 +61,13 @@ class HomeFragment : Fragment() {
 
                     false
                 }
+
             btnRecipeRecom.setOnClickListener(View.OnClickListener {
 
+            })
+
+            binding.cardDailyRecipe.setOnClickListener(View.OnClickListener {
+                onDailyRecipeClick(it)
             })
         }
     }
@@ -70,9 +77,12 @@ class HomeFragment : Fragment() {
         layoutManager.orientation = LinearLayoutManager.HORIZONTAL
         binding.rvProductPopular.layoutManager = layoutManager
 
-        val layoutManager2 = LinearLayoutManager(requireContext())
-        layoutManager2.orientation = LinearLayoutManager.HORIZONTAL
+        val layoutManager2 = GridLayoutManager(requireContext(), 4)
         binding.rvCategory.layoutManager = layoutManager2
+
+        val layoutManager3 = GridLayoutManager(requireContext(), 2)
+        binding.rvProductsHomepage.layoutManager = layoutManager3
+        binding.rvProductsHomepage.isNestedScrollingEnabled = false
     }
 
     private fun updateList() {
@@ -90,12 +100,14 @@ class HomeFragment : Fragment() {
         val adapter = ListProductAdapter()
         adapter.submitList(products)
         binding.rvProductPopular.adapter = adapter
+        binding.rvProductsHomepage.adapter = adapter
 
         adapter.setOnItemClickCallback(object : ListProductAdapter.OnItemClickCallback {
             override fun onItemClicked(product: ProductItem) {
-//                val intentToDetail = Intent(this@MainActivity, DetailActivity::class.java)
-//                intentToDetail.putExtra(EXTRA_STORY, story)
-//                startActivity(intentToDetail)
+                val intentToDetail = Intent(requireContext(), ProductDetailActivity::class.java)
+                val id = product.idProduk
+                intentToDetail.putExtra(EXTRA_ID, id)
+                startActivity(intentToDetail)
             }
         })
     }
@@ -108,8 +120,32 @@ class HomeFragment : Fragment() {
 
         adapter.setOnItemClickCallback(object : ListCategoryAdapter.OnItemClickCallback {
             override fun onItemClicked(category: CategoryItem) {
+                val intentToProductsPage = Intent(requireContext(), ProductsActivity::class.java)
+                val id = category.namaKategori
+                intentToProductsPage.putExtra(HomeFragment.EXTRA_CATEGORY_NAME, id)
+
+                startActivity(intentToProductsPage)
             }
         })
     }
 
+    fun onDailyRecipeClick(view: View?) {
+
+        val popupView = LayoutInflater.from(activity).inflate(com.bangkit.martq.R.layout.activity_recipe, null);
+        val popupWindow = PopupWindow(
+            popupView,
+            1250,
+            WindowManager.LayoutParams.WRAP_CONTENT
+        )
+
+        popupWindow.elevation = 20f
+        popupWindow.isFocusable = true
+        popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0)
+    }
+
+    companion object {
+        private const val TAG = "HomeFragment"
+        const val EXTRA_ID = "extra_id"
+        const val EXTRA_CATEGORY_NAME = "extra_category_name"
+    }
 }
