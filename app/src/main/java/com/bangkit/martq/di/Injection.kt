@@ -9,6 +9,7 @@ import com.bangkit.martq.repository.CartRepository
 import com.bangkit.martq.repository.OrderRepository
 import com.bangkit.martq.repository.ProductCategoryRepository
 import com.bangkit.martq.repository.ProductRepository
+import com.bangkit.martq.repository.ProfileRepository
 
 object Injection {
     fun provideProductRepository(context: Context): ProductRepository {
@@ -25,8 +26,9 @@ object Injection {
         return CartRepository(application)
     }
 
-    fun provideProfilePreferences(application: Application): ProfilePreferences {
-        return ProfilePreferences.getInstance(application.dataStore)
+    fun provideProfileRepository(context: Context): ProfileRepository {
+        val pref = ProfilePreferences.getInstance(context.dataStore)
+        return ProfileRepository.getInstance(pref)
     }
 
     fun provideOrderRepository(context: Context): OrderRepository {

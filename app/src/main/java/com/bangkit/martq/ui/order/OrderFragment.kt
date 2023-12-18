@@ -70,7 +70,7 @@ class OrderFragment : Fragment() {
         with(binding) {
             sectionCart.btnDelivery.setOnClickListener {
                 Toast.makeText(requireContext(),
-                    "Ups! Mohon maaf untuk saat ini kami belum menyediakan jasa deliver ya :(",
+                    "Ups! Mohon maaf untuk saat ini kami belum menyediakan jasa delivery :(",
                     Toast.LENGTH_SHORT).show()
             }
         }
@@ -93,7 +93,21 @@ class OrderFragment : Fragment() {
 
     private fun updateList() {
         viewModel.products.observe(requireActivity()) { product ->
-            setProducts(product)
+            if (product.isNotEmpty()) {
+                with(binding.sectionCart) {
+                    rvCartList.visibility = View.VISIBLE
+                    btnCheckout.visibility = View.VISIBLE
+                    emptyState.visibility = View.INVISIBLE
+                }
+
+                setProducts(product)
+            } else {
+                with(binding.sectionCart) {
+                    rvCartList.visibility = View.INVISIBLE
+                    btnCheckout.visibility = View.INVISIBLE
+                    emptyState.visibility = View.VISIBLE
+                }
+            }
         }
     }
 
@@ -151,20 +165,28 @@ class OrderFragment : Fragment() {
         }
 
         orderReviewBinding.btnNext.setOnClickListener {
-            val totalHarga = orderReviewBinding.tvTotalPriceValue.text.toString().toInt()
-            // TODO: waiting API
-            val products = listOf(4, 4)
-            setupCompleteData(products, totalHarga)
+            viewModel.getSession().observe(requireActivity()) { user ->
+                if (user.email != "") {
+                    val totalHarga = orderReviewBinding.tvTotalPriceValue.text.toString().toInt()
+
+                    // TODO: waiting API
+                    val products = listOf(4, 4)
+                    setupCompleteData(products, totalHarga)
+                } else {
+                    bottomSheetDialog.dismiss()
+
+                    Toast.makeText(requireContext(),
+                        "Demi menjaga keamanan, mohon untuk login terlebih dahulu sebelum memesan :)",
+                        Toast.LENGTH_LONG).show()
+                }
+            }
+
         }
     }
 
     fun setupCompleteData(products: List<Int>, totalPrice: Int) {
 
         bottomSheetDialog.setContentView(completeDataBinding.root)
-
-        viewModel.getUserPhone().observe(requireActivity()) { phone ->
-            completeDataBinding.etPhoneNumber.setText(phone)
-        }
 
         completeDataBinding.btnMakeOrder.setOnClickListener {
             viewModel.makeOrder(
