@@ -2,6 +2,7 @@ package com.bangkit.martq.ui.productPage
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -11,6 +12,7 @@ import com.bangkit.martq.factory.ViewModelFactory
 import com.bangkit.martq.paging.products.ListProductAdapter
 import com.bangkit.martq.ui.home.HomeFragment
 import com.bangkit.martq.ui.productDetail.ProductDetailActivity
+import com.bangkit.martq.utils.ResultState
 
 class ProductsActivity : AppCompatActivity() {
 
@@ -28,25 +30,31 @@ class ProductsActivity : AppCompatActivity() {
 
         setupData()
         setUpRecycler()
-        updateList()
     }
 
     private fun setupData() {
         val category = intent.getStringExtra(EXTRA_CATEGORY_NAME)
 
-        viewModel.getProductsByCategory(category.toString())
+        viewModel.getProductsByCategory(category.toString()).observe(this) { resultState ->
+            when (resultState) {
+                is ResultState.Success -> {
+                    setProducts(resultState.data.produk)
+                    binding.progressBar.visibility = View.GONE
+                }
+                is ResultState.Loading -> {
+                    binding.progressBar.visibility = View.VISIBLE
+                }
+                is ResultState.Error -> {
+                    binding.progressBar.visibility = View.GONE
+                }
+            }
+        }
     }
 
     private fun setUpRecycler() {
         val layoutManager = LinearLayoutManager(applicationContext)
         layoutManager.orientation = LinearLayoutManager.HORIZONTAL
         binding.rvProducts.layoutManager = layoutManager
-    }
-
-    private fun updateList() {
-        viewModel.products.observe(this) { product ->
-            setProducts(product.produk)
-        }
     }
 
     private fun setProducts(products: List<ProductItem>) {
