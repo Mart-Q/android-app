@@ -20,6 +20,7 @@ import com.bangkit.martq.paging.categories.ListCategoryAdapter
 import com.bangkit.martq.paging.products.ListProductAdapter
 import com.bangkit.martq.ui.productDetail.ProductDetailActivity
 import com.bangkit.martq.ui.productPage.ProductsActivity
+import com.bangkit.martq.utils.ResultState
 
 
 class HomeFragment : Fragment() {
@@ -86,12 +87,34 @@ class HomeFragment : Fragment() {
     }
 
     private fun updateList() {
-        viewModel.products.observe(requireActivity()) { product ->
-            setProducts(product.produk)
+        viewModel.getProducts().observe(requireActivity()) { resultState ->
+            when (resultState) {
+                is ResultState.Success -> {
+                    setProducts(resultState.data.produk)
+                    binding.pbProductPopular.visibility = View.GONE
+                }
+                is ResultState.Loading -> {
+                    binding.pbProductPopular.visibility = View.VISIBLE
+                }
+                is ResultState.Error -> {
+                    binding.pbProductPopular.visibility = View.GONE
+                }
+            }
         }
 
-        viewModel.category.observe(requireActivity()) { category ->
-            setCategories(category.kategori)
+        viewModel.getCategories().observe(requireActivity()) { resultState ->
+            when (resultState) {
+                is ResultState.Success -> {
+                    setCategories(resultState.data.kategori)
+                    binding.pbCategories.visibility = View.GONE
+                }
+                is ResultState.Loading -> {
+                    binding.pbCategories.visibility = View.VISIBLE
+                }
+                is ResultState.Error -> {
+                    binding.pbCategories.visibility = View.GONE
+                }
+            }
         }
     }
 

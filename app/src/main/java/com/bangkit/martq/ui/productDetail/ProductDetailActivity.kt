@@ -30,6 +30,11 @@ class ProductDetailActivity : AppCompatActivity() {
     }
 
     private fun setupView(productId: Int) {
+
+        viewModel.isLoading.observe(this) {
+            binding.progressBar.visibility = if (it) android.view.View.VISIBLE else android.view.View.GONE
+        }
+
         viewModel.getProduct(productId)
 
         viewModel.product.observe(this) {

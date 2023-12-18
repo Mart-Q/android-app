@@ -1,25 +1,20 @@
 package com.bangkit.martq.ui.productPage
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import com.bangkit.martq.data.remote.response.AllProductsResponse
+import androidx.lifecycle.liveData
 import com.bangkit.martq.repository.ProductRepository
-import kotlinx.coroutines.launch
+import com.bangkit.martq.utils.ResultState
+import kotlinx.coroutines.Dispatchers
 
 class ProductsViewModel(private val productRepo: ProductRepository) : ViewModel() {
 
-    private val _products = MutableLiveData<AllProductsResponse>()
-    val products: LiveData<AllProductsResponse> get() = _products
-
-    fun getProductsByCategory(category: String) {
+    fun getProductsByCategory(category: String) = liveData(Dispatchers.IO) {
+        emit(ResultState.Loading)
         try {
-            viewModelScope.launch {
-                _products.value = productRepo.getProductsByCategory(category)
-            }
+            emit(
+                ResultState.Success(data = productRepo.getProductsByCategory(category)))
         } catch (e: Exception) {
-
+            emit(ResultState.Error(error = e.message ?: "Error Occurred!"))
         }
     }
 }

@@ -11,15 +11,21 @@ import com.bangkit.martq.repository.ProductRepository
 import kotlinx.coroutines.launch
 
 class ProductDetailViewModel(private val productRepo: ProductRepository, private val cartRepo: CartRepository) : ViewModel() {
+
+    private val _isLoading = MutableLiveData<Boolean>()
+    val isLoading: LiveData<Boolean> = _isLoading
+
     private val _product = MutableLiveData<ProductDetailResponse>()
     val product: LiveData<ProductDetailResponse> get() = _product
 
     fun getProduct(id: Int) {
         viewModelScope.launch {
+            _isLoading.value = true
             try {
                 _product.value = productRepo.getProductById(id)
+                _isLoading.value = false
             } catch (e: Exception) {
-
+                _isLoading.value = false
             }
         }
     }
