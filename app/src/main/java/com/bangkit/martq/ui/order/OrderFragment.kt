@@ -10,12 +10,14 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bangkit.martq.data.local.room.Cart
 import com.bangkit.martq.data.model.ProductOrder
+import com.bangkit.martq.data.remote.response.PesananItem
 import com.bangkit.martq.databinding.FragmentOrderBinding
 import com.bangkit.martq.databinding.LayoutOrderCompleteDataBinding
 import com.bangkit.martq.databinding.LayoutOrderReviewBinding
 import com.bangkit.martq.factory.ViewModelFactory
 import com.bangkit.martq.paging.carts.ListCartAdapter
 import com.bangkit.martq.paging.orderReview.ListOrderReviewAdapter
+import com.bangkit.martq.utils.ResultState
 import com.google.android.material.bottomsheet.BottomSheetDialog
 
 class OrderFragment : Fragment() {
@@ -41,14 +43,49 @@ class OrderFragment : Fragment() {
         _binding = FragmentOrderBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        setUpRecycler()
+        viewModel.getOrderHistory(2).observe(requireActivity()) { resultState ->
+            when (resultState) {
+                is ResultState.Success -> {
+                    if (resultState.data.pesanan!!.isNotEmpty()) {
+                        setupOrderHistory(resultState.data!!.pesanan!!)
+                    }
+                }
+                is ResultState.Loading -> {
+                }
+                is ResultState.Error -> {
+                }
+            }
+
+        }
+
+        setupView()
+        setUpCartList()
         updateList()
         setupOrderFlow()
 
         return root
     }
 
-    private fun setUpRecycler() {
+    private fun setupView() {
+        with(binding) {
+            sectionCart.btnDelivery.setOnClickListener {
+                Toast.makeText(requireContext(),
+                    "Ups! Mohon maaf untuk saat ini kami belum menyediakan jasa deliver ya :(",
+                    Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
+    private fun setupOrderHistory(orderHistories: List<PesananItem?>) {
+        with(binding) {
+            sectionOrderStatus.root.visibility = View.VISIBLE
+
+            sectionOrderStatus.tvStatus.text = orderHistories[0]?.statusPembayaran
+            sectionOrderStatus.tvOrderPrice.text = orderHistories[0]?.totalHarga.toString()
+        }
+    }
+
+    private fun setUpCartList() {
         val layoutManager = LinearLayoutManager(requireContext())
         layoutManager.orientation = LinearLayoutManager.VERTICAL
         binding.sectionCart.rvCartList.layoutManager = layoutManager

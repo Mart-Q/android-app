@@ -29,8 +29,10 @@ interface ApiService {
         @Query("kategori") category: String
     ): AllProductsResponse
 
-    @GET("pesanan")
-    suspend fun getOrders(): AllOrdersResponse
+    @GET("pesanan/{id}")
+    suspend fun getOrders(
+        @Path("id") id: Int
+    ): AllOrdersResponse
 
     @FormUrlEncoded
     @POST("pesanan")

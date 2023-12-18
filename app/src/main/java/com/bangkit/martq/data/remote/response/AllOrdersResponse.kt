@@ -12,6 +12,13 @@ data class AllOrdersResponse(
 ) : Parcelable
 
 @Parcelize
+data class ProdukItem(
+
+	@field:SerializedName("id_produk")
+	val idProduk: Int? = null
+) : Parcelable
+
+@Parcelize
 data class PesananItem(
 
 	@field:SerializedName("Total Harga")
@@ -43,11 +50,4 @@ data class PesananItem(
 
 	@field:SerializedName("is_delivery")
 	val isDelivery: String? = null
-) : Parcelable
-
-@Parcelize
-data class ProdukItem(
-
-	@field:SerializedName("id_produk")
-	val idProduk: Int? = null
 ) : Parcelable

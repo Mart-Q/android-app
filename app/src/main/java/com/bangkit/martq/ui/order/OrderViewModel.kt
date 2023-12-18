@@ -7,6 +7,7 @@ import androidx.lifecycle.asLiveData
 import androidx.lifecycle.liveData
 import com.bangkit.martq.data.local.datastore.ProfilePreferences
 import com.bangkit.martq.data.local.room.Cart
+import com.bangkit.martq.data.remote.response.PesananItem
 import com.bangkit.martq.repository.CartRepository
 import com.bangkit.martq.repository.OrderRepository
 import com.bangkit.martq.utils.ResultState
@@ -20,6 +21,9 @@ class OrderViewModel(
 
     private val _products = MutableLiveData<List<Cart>>()
     val products: LiveData<List<Cart>> get() = _products
+
+    private val _orderHistory = MutableLiveData<List<PesananItem?>>()
+    val orderHistory: LiveData<List<PesananItem?>> get() = _orderHistory
 
     private val _userEmail = MutableLiveData<String>()
     val userEmail: LiveData<String> get() = _userEmail
@@ -74,6 +78,15 @@ class OrderViewModel(
                 totalHarga,
                 products
             )))
+        } catch (e: Exception) {
+            emit(ResultState.Error(error = e.message ?: "Error Occurred!"))
+        }
+    }
+
+    fun getOrderHistory(idUser: Int) = liveData(Dispatchers.IO) {
+        emit(ResultState.Loading)
+        try {
+            emit(ResultState.Success(data = orderRepo.getOrders(idUser)))
         } catch (e: Exception) {
             emit(ResultState.Error(error = e.message ?: "Error Occurred!"))
         }

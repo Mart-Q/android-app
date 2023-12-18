@@ -6,7 +6,11 @@ class OrderRepository private constructor(
     private val apiService: ApiService
 ) {
 
-    suspend fun getOrders() = apiService.getOrders()
+    suspend fun getOrders(
+        idUser: Int
+    ) = apiService.getOrders(
+        idUser
+    )
 
     suspend fun postOrder(
         idUser: Int,
