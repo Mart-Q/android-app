@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -86,7 +87,6 @@ class OrderFragment : Fragment() {
         }
 
         setupOrderReview()
-        setupCompleteData()
     }
 
     fun setupOrderReview() {
@@ -110,25 +110,39 @@ class OrderFragment : Fragment() {
             adapter2.submitList(productsOrder)
 
             orderReviewBinding.rvProductOrder.adapter = adapter2
-            orderReviewBinding.tvTotalPriceValue.text = totalPrice.toString()
+            orderReviewBinding.tvTotalPriceValue.text = (totalPrice + 7000).toString()
         }
 
         orderReviewBinding.btnNext.setOnClickListener {
-            bottomSheetDialog.setContentView(completeDataBinding.root)
+            val totalHarga = orderReviewBinding.tvTotalPriceValue.text.toString().toInt()
+            // TODO: waiting API
+            val products = listOf(4, 4)
+            setupCompleteData(products, totalHarga)
         }
     }
 
-    fun setupCompleteData() {
-        completeDataBinding.btnMakeOrder.setOnClickListener {
-            bottomSheetDialog.dismiss()
-        }
+    fun setupCompleteData(products: List<Int>, totalPrice: Int) {
 
-        viewModel.getAddress().observe(requireActivity()) { address ->
-            completeDataBinding.tvAddressValue.text = address
-        }
+        bottomSheetDialog.setContentView(completeDataBinding.root)
 
-        viewModel.getPhone().observe(requireActivity()) { phone ->
+        viewModel.getUserPhone().observe(requireActivity()) { phone ->
             completeDataBinding.etPhoneNumber.setText(phone)
+        }
+
+        completeDataBinding.btnMakeOrder.setOnClickListener {
+            viewModel.makeOrder(
+                2,
+                "false",
+                null,
+                1,
+                7000,
+                totalPrice,
+                products
+            )
+
+            bottomSheetDialog.dismiss()
+
+            Toast.makeText(requireContext(), "Yay! Berhasil membuat pesanan.", Toast.LENGTH_SHORT).show()
         }
     }
 }

@@ -23,4 +23,5 @@
     <color name="order_status_orange">#FEF0F0</color>
     <color name="order_status_blue">#DEF3FF</color>
     <color name="order_status_green">#DEFFEF</color>
+    <color name="warning_red">#FFE4E4</color>
 </resources>

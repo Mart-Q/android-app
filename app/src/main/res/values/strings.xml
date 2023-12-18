@@ -32,4 +32,7 @@
     <string name="nav_explore_title">Lihat inspirasi masakan dari bahan makanan yang kamu punya!</string>
     <string name="section_products_homepage">Untuk kamu</string>
     <string name="section_daily_recipe_recom_products">Bahan makanan yang kamu perlukan</string>
+
+    // general
+    <string name="ok">Ok</string>
 </resources>

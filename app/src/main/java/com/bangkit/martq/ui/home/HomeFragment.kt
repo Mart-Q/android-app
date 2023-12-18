@@ -82,8 +82,7 @@ class HomeFragment : Fragment() {
         layoutManager.orientation = LinearLayoutManager.HORIZONTAL
         binding.rvProductPopular.layoutManager = layoutManager
 
-        val layoutManager2 = LinearLayoutManager(requireContext())
-        layoutManager2.orientation = LinearLayoutManager.HORIZONTAL
+        val layoutManager2 = GridLayoutManager(requireContext(), 4)
         binding.rvCategory.layoutManager = layoutManager2
 
         val layoutManager3 = GridLayoutManager(requireContext(), 2)

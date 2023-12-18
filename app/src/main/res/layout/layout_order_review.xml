@@ -32,13 +32,52 @@
         tools:itemCount="4"/>
 
     <TextView
+        android:id="@+id/tv_ongkir"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:text="Biaya pengiriman"
+        android:textSize="14sp"
+        app:layout_constraintTop_toBottomOf="@id/rv_product_order"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="8dp"/>
+
+    <TextView
+        android:id="@+id/rp_ongkir"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Rp"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        android:textColor="@color/dark_navy_light"
+        app:layout_constraintTop_toTopOf="@id/tv_ongkir"
+        app:layout_constraintEnd_toStartOf="@id/tv_ongkir_value"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp" />
+
+    <TextView
+        android:id="@+id/tv_ongkir_value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="7000"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        android:textColor="@color/dark_navy_light"
+        app:layout_constraintTop_toTopOf="@id/tv_ongkir"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"/>
+
+    <TextView
         android:id="@+id/tv_total"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:text="Total"
         android:textSize="14sp"
-        app:layout_constraintTop_toBottomOf="@id/rv_product_order"
+        app:layout_constraintTop_toBottomOf="@id/tv_ongkir"
         app:layout_constraintStart_toStartOf="parent"
         android:layout_marginTop="10dp"
         android:layout_marginBottom="8dp"/>
