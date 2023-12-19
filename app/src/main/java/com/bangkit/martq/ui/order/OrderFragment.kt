@@ -19,6 +19,7 @@ import com.bangkit.martq.paging.carts.ListCartAdapter
 import com.bangkit.martq.paging.orderReview.ListOrderReviewAdapter
 import com.bangkit.martq.utils.ResultState
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import java.util.Collections
 
 class OrderFragment : Fragment() {
 
@@ -43,7 +44,7 @@ class OrderFragment : Fragment() {
         _binding = FragmentOrderBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        viewModel.getOrderHistory(2).observe(requireActivity()) { resultState ->
+        viewModel.getOrderHistory(7).observe(requireActivity()) { resultState ->
             when (resultState) {
                 is ResultState.Success -> {
                     if (resultState.data.pesanan!!.isNotEmpty()) {
@@ -80,8 +81,8 @@ class OrderFragment : Fragment() {
         with(binding) {
             sectionOrderStatus.root.visibility = View.VISIBLE
 
-            sectionOrderStatus.tvStatus.text = orderHistories[0]?.statusPembayaran
-            sectionOrderStatus.tvOrderPrice.text = orderHistories[0]?.totalHarga.toString()
+            sectionOrderStatus.tvStatus.text = orderHistories[orderHistories.size - 1]?.status
+            sectionOrderStatus.tvOrderPrice.text = orderHistories[orderHistories.size - 1]?.totalHarga.toString()
         }
     }
 
@@ -145,14 +146,17 @@ class OrderFragment : Fragment() {
         layoutManager2.orientation = LinearLayoutManager.VERTICAL
         orderReviewBinding.rvProductOrder.layoutManager = layoutManager2
 
+        val productsOrder = mutableListOf<ProductOrder>()
+        val productsName = mutableListOf<String>()
+
         viewModel.products.observe(requireActivity()) { products ->
 
-            val productsOrder = mutableListOf<ProductOrder>()
             var totalPrice = 0
 
             for (i in products) {
                 val productOrder = ProductOrder(i.productName, i.price, i.quantity, i.price * i.quantity)
                 productsOrder.add(productOrder)
+                productsName.add(i.productName)
 
                 totalPrice += i.price * i.quantity
             }
@@ -169,9 +173,9 @@ class OrderFragment : Fragment() {
                 if (user.email != "") {
                     val totalHarga = orderReviewBinding.tvTotalPriceValue.text.toString().toInt()
 
-                    // TODO: waiting API
-                    val products = listOf(4, 4)
-                    setupCompleteData(products, totalHarga)
+                    setupCompleteData(
+                        Collections.unmodifiableList(productsName)
+                        , totalHarga)
                 } else {
                     bottomSheetDialog.dismiss()
 
@@ -184,20 +188,32 @@ class OrderFragment : Fragment() {
         }
     }
 
-    fun setupCompleteData(products: List<Int>, totalPrice: Int) {
+    fun setupCompleteData(products: List<String>, totalPrice: Int) {
 
         bottomSheetDialog.setContentView(completeDataBinding.root)
 
         completeDataBinding.btnMakeOrder.setOnClickListener {
             viewModel.makeOrder(
-                2,
+                7,
                 "false",
                 null,
                 1,
                 7000,
                 totalPrice,
                 products
-            )
+            ).observe(requireActivity()) { resultState ->
+                when (resultState) {
+                    is ResultState.Success -> {
+                        viewModel.deleteCart()
+                    }
+                    is ResultState.Loading -> {
+                        Toast.makeText(requireContext(), "Mohon tunggu...", Toast.LENGTH_SHORT).show()
+                    }
+                    is ResultState.Error -> {
+                        Toast.makeText(requireContext(), "Ups! Terjadi kesalahan.", Toast.LENGTH_SHORT).show()
+                    }
+                }
+            }
 
             bottomSheetDialog.dismiss()
 

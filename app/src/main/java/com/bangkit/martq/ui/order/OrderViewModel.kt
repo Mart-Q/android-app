@@ -32,6 +32,10 @@ class OrderViewModel(
         }
     }
 
+    fun deleteCart() {
+        cartRepo.deleteAll()
+    }
+
     fun makeOrder(
         idUser: Int,
         isDelivery: String,
@@ -39,7 +43,7 @@ class OrderViewModel(
         idMarket: Int,
         biayaOngkosKirim: Int,
         totalHarga: Int,
-        products: List<Int>,
+        products: List<String>,
     ) = liveData(Dispatchers.IO) {
         emit(ResultState.Loading)
         try {

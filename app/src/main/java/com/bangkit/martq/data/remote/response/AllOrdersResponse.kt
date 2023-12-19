@@ -42,8 +42,8 @@ data class PesananItem(
 	@field:SerializedName("Waktu")
 	val waktu: String? = null,
 
-	@field:SerializedName("Status Pembayaran")
-	val statusPembayaran: String? = null,
+	@field:SerializedName("status")
+	val status: String? = null,
 
 	@field:SerializedName("id_user")
 	val idUser: Int? = null,
