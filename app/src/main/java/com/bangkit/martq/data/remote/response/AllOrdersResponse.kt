@@ -34,7 +34,7 @@ data class PesananItem(
 	val produk: List<ProdukItem?>? = null,
 
 	@field:SerializedName("id_market")
-	val idMarket: Int? = null,
+	val idMarket: String? = null,
 
 	@field:SerializedName("id_pesanan")
 	val idPesanan: Int? = null,
@@ -42,7 +42,7 @@ data class PesananItem(
 	@field:SerializedName("Waktu")
 	val waktu: String? = null,
 
-	@field:SerializedName("status")
+	@field:SerializedName("Status")
 	val status: String? = null,
 
 	@field:SerializedName("id_user")

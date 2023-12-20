@@ -11,6 +11,7 @@ import com.bangkit.martq.repository.OrderRepository
 import com.bangkit.martq.repository.ProductCategoryRepository
 import com.bangkit.martq.repository.ProductRepository
 import com.bangkit.martq.repository.ProfileRepository
+import com.bangkit.martq.repository.RecipeRepository
 import com.bangkit.martq.ui.account.AccountViewModel
 import com.bangkit.martq.ui.home.HomeViewModel
 import com.bangkit.martq.ui.login.LoginViewModel
@@ -18,6 +19,7 @@ import com.bangkit.martq.ui.order.OrderViewModel
 import com.bangkit.martq.ui.productDetail.ProductDetailViewModel
 import com.bangkit.martq.ui.productPage.ProductsViewModel
 import com.bangkit.martq.ui.recipe.RecipeViewModel
+import com.bangkit.martq.ui.recommencation.RecommendationViewModel
 import com.bangkit.martq.ui.register.RegisterViewModel
 
 class ViewModelFactory(
@@ -26,7 +28,8 @@ class ViewModelFactory(
     private val cartRepo: CartRepository,
     private val profileRepo: ProfileRepository,
     private val orderRepo: OrderRepository,
-    private val authRepo: AuthRepository
+    private val authRepo: AuthRepository,
+    private val recipeRepository: RecipeRepository,
 ) : ViewModelProvider.NewInstanceFactory() {
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
@@ -35,7 +38,7 @@ class ViewModelFactory(
                 HomeViewModel(productRepo, categoryRepo) as T
             }
             modelClass.isAssignableFrom(RecipeViewModel::class.java) -> {
-                RecipeViewModel(productRepo) as T
+                RecipeViewModel(cartRepo) as T
             }
             modelClass.isAssignableFrom(ProductDetailViewModel::class.java) -> {
                 ProductDetailViewModel(productRepo, cartRepo) as T
@@ -55,6 +58,9 @@ class ViewModelFactory(
             modelClass.isAssignableFrom(RegisterViewModel::class.java) -> {
                 RegisterViewModel(profileRepo) as T
             }
+            modelClass.isAssignableFrom(RecommendationViewModel::class.java) -> {
+                RecommendationViewModel(recipeRepository) as T
+            }
             else -> throw IllegalArgumentException("Unknown ViewModel class: " + modelClass.name)
         }
     }
@@ -72,7 +78,8 @@ class ViewModelFactory(
                         Injection.provideCartRepository(context.applicationContext as Application),
                         Injection.provideProfileRepository(context),
                         Injection.provideOrderRepository(context),
-                        Injection.provideAuthRepository(context)
+                        Injection.provideAuthRepository(context),
+                        Injection.provideRecipeRepository(context),
                     )
                 }
             }

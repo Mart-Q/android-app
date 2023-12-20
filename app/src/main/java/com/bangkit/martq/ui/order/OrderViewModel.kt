@@ -43,8 +43,9 @@ class OrderViewModel(
         idMarket: Int,
         biayaOngkosKirim: Int,
         totalHarga: Int,
-        products: List<String>,
-    ) = liveData(Dispatchers.IO) {
+        status: String,
+        products: String,
+    ): LiveData<ResultState<Any>> = liveData(Dispatchers.IO) {
         emit(ResultState.Loading)
         try {
             emit(ResultState.Success(data = orderRepo.postOrder(
@@ -54,6 +55,7 @@ class OrderViewModel(
                 idMarket,
                 biayaOngkosKirim,
                 totalHarga,
+                status,
                 products
             )))
         } catch (e: Exception) {

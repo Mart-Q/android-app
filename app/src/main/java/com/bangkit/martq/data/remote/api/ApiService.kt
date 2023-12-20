@@ -3,6 +3,7 @@ package com.bangkit.martq.data.remote.api
 import com.bangkit.martq.data.remote.response.AllCategoriesResponse
 import com.bangkit.martq.data.remote.response.AllOrdersResponse
 import com.bangkit.martq.data.remote.response.AllProductsResponse
+import com.bangkit.martq.data.remote.response.FoodInspirationResponse
 import com.bangkit.martq.data.remote.response.LoginResponse
 import com.bangkit.martq.data.remote.response.PostOrderResponse
 import com.bangkit.martq.data.remote.response.ProductDetailResponse
@@ -52,7 +53,10 @@ interface ApiService {
         @Field("id_market") idMarket: Int,
         @Field("biaya_ongkos_kirim") biayaOngkosKirim: Int,
         @Field("total_harga") totalHarga: Int,
-        @Field("status") status: String = "Menghubungi pihak pasar",
-        @Field("produk") products: List<String>,
+        @Field("status") status: String,
+        @Field("produk") products: String,
     ): PostOrderResponse
+
+    @GET("recommender")
+    suspend fun getFoodInspiration(): FoodInspirationResponse
 }
