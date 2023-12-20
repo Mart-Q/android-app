@@ -5,7 +5,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.GridLayoutManager
 import com.bangkit.martq.data.remote.response.ProductItem
 import com.bangkit.martq.databinding.ActivityProductsBinding
 import com.bangkit.martq.factory.ViewModelFactory
@@ -52,8 +52,7 @@ class ProductsActivity : AppCompatActivity() {
     }
 
     private fun setUpRecycler() {
-        val layoutManager = LinearLayoutManager(applicationContext)
-        layoutManager.orientation = LinearLayoutManager.HORIZONTAL
+        val layoutManager = GridLayoutManager(applicationContext, 2)
         binding.rvProducts.layoutManager = layoutManager
     }
 
