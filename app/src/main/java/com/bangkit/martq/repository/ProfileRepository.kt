@@ -11,6 +11,14 @@ class ProfileRepository private constructor(
         profilePreference.saveSession(user)
     }
 
+    suspend fun savePhone(phone: String) {
+        profilePreference.savePhone(phone)
+    }
+
+    suspend fun saveAddress(address: String) {
+        profilePreference.saveAddress(address)
+    }
+
     fun getSession(): Flow<UserModel> {
         return profilePreference.getSession()
     }

@@ -15,7 +15,7 @@ class OrderRepository private constructor(
     suspend fun postOrder(
         idUser: Int,
         isDelivery: String,
-        idRekening: String?,
+        idRekening: Int?,
         idMarket: Int,
         biayaOngkosKirim: Int,
         totalHarga: Int,

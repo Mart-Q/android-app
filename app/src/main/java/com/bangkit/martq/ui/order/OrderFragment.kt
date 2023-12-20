@@ -8,6 +8,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.bangkit.martq.data.local.datastore.UserModel
 import com.bangkit.martq.data.local.room.Cart
 import com.bangkit.martq.data.model.ProductOrder
 import com.bangkit.martq.data.remote.response.PesananItem
@@ -172,10 +173,18 @@ class OrderFragment : Fragment() {
             viewModel.getSession().observe(requireActivity()) { user ->
                 if (user.email != "") {
                     val totalHarga = orderReviewBinding.tvTotalPriceValue.text.toString().toInt()
+                    val userCreds = UserModel(
+                        user.email,
+                        user.name,
+                        user.phone,
+                        user.address,
+                    )
 
                     setupCompleteData(
-                        Collections.unmodifiableList(productsName)
-                        , totalHarga)
+                        Collections.unmodifiableList(productsName),
+                        totalHarga,
+                        userCreds
+                    )
                 } else {
                     bottomSheetDialog.dismiss()
 
@@ -188,15 +197,19 @@ class OrderFragment : Fragment() {
         }
     }
 
-    fun setupCompleteData(products: List<String>, totalPrice: Int) {
+    fun setupCompleteData(products: List<String>, totalPrice: Int, UserCreds: UserModel) {
 
         bottomSheetDialog.setContentView(completeDataBinding.root)
+
+        completeDataBinding.tvAddressValue.text = UserCreds.address
+        completeDataBinding.etPhoneNumber.setText(UserCreds.phone)
+        completeDataBinding.etName.setText(UserCreds.name)
 
         completeDataBinding.btnMakeOrder.setOnClickListener {
             viewModel.makeOrder(
                 7,
                 "false",
-                null,
+                2,
                 1,
                 7000,
                 totalPrice,
@@ -205,24 +218,19 @@ class OrderFragment : Fragment() {
                 when (resultState) {
                     is ResultState.Success -> {
                         viewModel.deleteCart()
+                        Toast.makeText(requireContext(), "Yay! Berhasil membuat pesanan.", Toast.LENGTH_SHORT).show()
                     }
                     is ResultState.Loading -> {
-                        Toast.makeText(requireContext(), "Mohon tunggu...", Toast.LENGTH_SHORT).show()
                     }
                     is ResultState.Error -> {
-                        Toast.makeText(requireContext(), "Ups! Terjadi kesalahan.", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(requireContext(), "Pesanan berhasil dibuat.", Toast.LENGTH_SHORT).show()
+                        viewModel.deleteCart()
                     }
                 }
             }
 
             bottomSheetDialog.dismiss()
-
-            Toast.makeText(requireContext(), "Yay! Berhasil membuat pesanan.", Toast.LENGTH_SHORT).show()
         }
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
 }

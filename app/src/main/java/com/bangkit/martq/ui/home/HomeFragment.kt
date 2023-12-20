@@ -166,11 +166,6 @@ class HomeFragment : Fragment() {
         popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0)
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
-
     companion object {
         private const val TAG = "HomeFragment"
         const val EXTRA_ID = "extra_id"

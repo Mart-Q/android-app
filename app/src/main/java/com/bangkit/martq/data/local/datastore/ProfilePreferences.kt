@@ -13,7 +13,16 @@ val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "se
 
 class ProfilePreferences private constructor(private val dataStore: DataStore<Preferences>) {
 
-
+    fun getSession(): Flow<UserModel> {
+        return dataStore.data.map { preferences ->
+            UserModel(
+                preferences[PROFILE_EMAIL] ?: "",
+                preferences[PROFILE_NAME] ?: "",
+                preferences[PROFILE_PHONE] ?: "",
+                preferences[PROFILE_ADDRESS] ?: ""
+            )
+        }
+    }
 
     suspend fun saveSession(user: UserModel) {
         dataStore.edit { preferences ->
@@ -23,14 +32,16 @@ class ProfilePreferences private constructor(private val dataStore: DataStore<Pr
             preferences[PROFILE_ADDRESS] = user.address
         }
     }
-    fun getSession(): Flow<UserModel> {
-        return dataStore.data.map { preferences ->
-            UserModel(
-                preferences[PROFILE_EMAIL] ?: "",
-                preferences[PROFILE_NAME] ?: "",
-                preferences[PROFILE_PHONE] ?: "",
-                preferences[PROFILE_ADDRESS] ?: ""
-            )
+
+    suspend fun savePhone(phone: String) {
+        dataStore.edit { preferences ->
+            preferences[PROFILE_PHONE] = phone
+        }
+    }
+
+    suspend fun saveAddress(address: String) {
+        dataStore.edit { preferences ->
+            preferences[PROFILE_ADDRESS] = address
         }
     }
 
