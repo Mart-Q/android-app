@@ -46,7 +46,6 @@ class LoginActivity : AppCompatActivity() {
                         }
                         is ResultState.Error -> {
                             showLoading(false)
-                            showToast(resultState.error)
                         }
                     }
                 }

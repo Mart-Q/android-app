@@ -46,21 +46,6 @@ class OrderFragment : Fragment() {
         _binding = FragmentOrderBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        viewModel.getOrderHistory(7).observe(requireActivity()) { resultState ->
-            when (resultState) {
-                is ResultState.Success -> {
-                    if (resultState.data.pesanan!!.isNotEmpty()) {
-                        setupOrderHistory(resultState.data!!.pesanan!!)
-                    }
-                }
-                is ResultState.Loading -> {
-                }
-                is ResultState.Error -> {
-                }
-            }
-
-        }
-
         setupView()
         setUpCartList()
         updateList()
@@ -79,12 +64,12 @@ class OrderFragment : Fragment() {
         }
     }
 
-    private fun setupOrderHistory(orderHistories: List<PesananItem?>) {
+    private fun setupOrderHistory(orderHistories: List<PesananItem?>, totalPrice: Int) {
         with(binding) {
             sectionOrderStatus.root.visibility = View.VISIBLE
 
             sectionOrderStatus.tvStatus.text = orderHistories[orderHistories.size - 1]?.status
-            sectionOrderStatus.tvOrderPrice.text = orderHistories[orderHistories.size - 1]?.totalHarga.toString()
+            sectionOrderStatus.tvOrderPrice.text = totalPrice.toString()
             sectionOrderStatus.tvMarketName.text = orderHistories[orderHistories.size - 1]?.idMarket
         }
     }
@@ -209,8 +194,6 @@ class OrderFragment : Fragment() {
         completeDataBinding.etPhoneNumber.setText(userCreds.phone)
         completeDataBinding.etName.setText(userCreds.name)
 
-        Log.d("DEBUGGG HUAAAAAAA", "setupCompleteData: products: $products")
-
         completeDataBinding.btnMakeOrder.setOnClickListener {
             Log.d("DEBUGGG", "setupCompleteData: products: $products")
             viewModel.makeOrder(
@@ -231,13 +214,31 @@ class OrderFragment : Fragment() {
                     is ResultState.Loading -> {
                     }
                     is ResultState.Error -> {
-                        Toast.makeText(requireContext(), "GAGAL. " + resultState.error, Toast.LENGTH_SHORT).show()
                         viewModel.deleteCart()
+                        Toast.makeText(requireContext(), "Pesanan berhasil dibuat.", Toast.LENGTH_SHORT).show()
                     }
                 }
             }
 
+            getOrderHistory(totalPrice)
+
             bottomSheetDialog.dismiss()
+        }
+    }
+
+    private fun getOrderHistory(totalPrice: Int) {
+        viewModel.getOrderHistory(7).observe(requireActivity()) { resultState ->
+            when (resultState) {
+                is ResultState.Success -> {
+                    if (resultState.data.pesanan!!.isNotEmpty()) {
+                        setupOrderHistory(resultState.data!!.pesanan!!, totalPrice)
+                    }
+                }
+                is ResultState.Loading -> {
+                }
+                is ResultState.Error -> {
+                }
+            }
         }
     }
 
