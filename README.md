@@ -7,6 +7,8 @@ MartQ is set to revolutionize traditional market shopping by offering a convenie
 - 🌽 **Reducing Food Waste**
 - 🛍 **Affordable Freshness**
 
+Watch the demo [here](https://drive.google.com/file/d/1vwcCY8AWuxdJw4w4amz6jp0VTM5q7l4L/view?usp=sharing).
+
 ## Features
 - **Effortless Product Selection:** Easily pick your desired products without market concerns.
 - **Culinary Inspiration:** Discover a variety of culinary ideas based on your pantry essentials.
