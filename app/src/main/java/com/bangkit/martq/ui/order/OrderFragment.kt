@@ -178,8 +178,8 @@ class OrderFragment : Fragment() {
                     bottomSheetDialog.dismiss()
 
                     Toast.makeText(requireContext(),
-                        "Demi menjaga keamanan, mohon untuk login terlebih dahulu sebelum memesan :)",
-                        Toast.LENGTH_LONG).show()
+                        "Mohon untuk login terlebih dahulu sebelum memesan :)",
+                        Toast.LENGTH_SHORT).show()
                 }
             }
 
