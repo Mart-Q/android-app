@@ -11,6 +11,7 @@ import com.bangkit.martq.repository.OrderRepository
 import com.bangkit.martq.repository.ProductCategoryRepository
 import com.bangkit.martq.repository.ProductRepository
 import com.bangkit.martq.repository.ProfileRepository
+import com.bangkit.martq.repository.RecipeRepository
 
 object Injection {
 
@@ -41,5 +42,10 @@ object Injection {
     fun provideOrderRepository(context: Context): OrderRepository {
         val apiService = ApiConfig.getApiService()
         return OrderRepository.getInstance(apiService)
+    }
+
+    fun provideRecipeRepository(context: Context): RecipeRepository {
+        val apiService = ApiConfig.getApiService()
+        return RecipeRepository.getInstance(apiService)
     }
 }

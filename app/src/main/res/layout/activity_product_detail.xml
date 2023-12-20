@@ -17,7 +17,7 @@
         app:icon="@drawable/ic_arrow_back"
         android:textAllCaps="false"
         style="@style/Widget.MaterialComponents.Button.Icon"
-        android:text="Back"
+        android:text="Kembali"
         android:backgroundTint="@color/white"
         android:textColor="@color/black"
         app:layout_constraintTop_toTopOf="parent"
