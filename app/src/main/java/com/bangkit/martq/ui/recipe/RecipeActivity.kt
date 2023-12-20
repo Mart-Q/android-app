@@ -87,11 +87,13 @@ class RecipeActivity : AppCompatActivity() {
             )
         }
 
-        setupAction(products)
+        setupAction(products, recipe!!)
         setUpCartList(products)
     }
 
-    private fun setupAction(products: List<Cart>) {
+    private fun setupAction(products: List<Cart>, recipeName: String) {
+        binding.tvRecipeName.text = recipeName
+
         binding.btnAddToCart.setOnClickListener {
 
             for (product in products) {
