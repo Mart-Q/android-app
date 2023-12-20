@@ -1,6 +1,7 @@
 package com.bangkit.martq.ui.order
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -20,7 +21,7 @@ import com.bangkit.martq.paging.carts.ListCartAdapter
 import com.bangkit.martq.paging.orderReview.ListOrderReviewAdapter
 import com.bangkit.martq.utils.ResultState
 import com.google.android.material.bottomsheet.BottomSheetDialog
-import java.util.Collections
+
 
 class OrderFragment : Fragment() {
 
@@ -84,6 +85,7 @@ class OrderFragment : Fragment() {
 
             sectionOrderStatus.tvStatus.text = orderHistories[orderHistories.size - 1]?.status
             sectionOrderStatus.tvOrderPrice.text = orderHistories[orderHistories.size - 1]?.totalHarga.toString()
+            sectionOrderStatus.tvMarketName.text = orderHistories[orderHistories.size - 1]?.idMarket
         }
     }
 
@@ -121,9 +123,11 @@ class OrderFragment : Fragment() {
 
         adapter.setOnItemClickCallback(object : ListCartAdapter.OnItemClickCallback {
             override fun onBtnAddClicked(cart: Cart) {
+                Toast.makeText(requireContext(), "Add", Toast.LENGTH_SHORT).show()
             }
 
             override fun onBtnSubtractClicked(cart: Cart) {
+                Toast.makeText(requireContext(), "snkajndkkkkkkkk", Toast.LENGTH_SHORT).show()
             }
         })
     }
@@ -148,7 +152,7 @@ class OrderFragment : Fragment() {
         orderReviewBinding.rvProductOrder.layoutManager = layoutManager2
 
         val productsOrder = mutableListOf<ProductOrder>()
-        val productsName = mutableListOf<String>()
+        var productNames = ""
 
         viewModel.products.observe(requireActivity()) { products ->
 
@@ -157,7 +161,7 @@ class OrderFragment : Fragment() {
             for (i in products) {
                 val productOrder = ProductOrder(i.productName, i.price, i.quantity, i.price * i.quantity)
                 productsOrder.add(productOrder)
-                productsName.add(i.productName)
+                productNames += i.productName
 
                 totalPrice += i.price * i.quantity
             }
@@ -181,7 +185,7 @@ class OrderFragment : Fragment() {
                     )
 
                     setupCompleteData(
-                        Collections.unmodifiableList(productsName),
+                        productNames,
                         totalHarga,
                         userCreds
                     )
@@ -197,15 +201,18 @@ class OrderFragment : Fragment() {
         }
     }
 
-    fun setupCompleteData(products: List<String>, totalPrice: Int, UserCreds: UserModel) {
+    fun setupCompleteData(products: String, totalPrice: Int, userCreds: UserModel) {
 
         bottomSheetDialog.setContentView(completeDataBinding.root)
 
-        completeDataBinding.tvAddressValue.text = UserCreds.address
-        completeDataBinding.etPhoneNumber.setText(UserCreds.phone)
-        completeDataBinding.etName.setText(UserCreds.name)
+        completeDataBinding.tvAddressValue.text = userCreds.address
+        completeDataBinding.etPhoneNumber.setText(userCreds.phone)
+        completeDataBinding.etName.setText(userCreds.name)
+
+        Log.d("DEBUGGG HUAAAAAAA", "setupCompleteData: products: $products")
 
         completeDataBinding.btnMakeOrder.setOnClickListener {
+            Log.d("DEBUGGG", "setupCompleteData: products: $products")
             viewModel.makeOrder(
                 7,
                 "false",
@@ -213,6 +220,7 @@ class OrderFragment : Fragment() {
                 1,
                 7000,
                 totalPrice,
+                "Menghubungi pihak pasar",
                 products
             ).observe(requireActivity()) { resultState ->
                 when (resultState) {
@@ -223,7 +231,7 @@ class OrderFragment : Fragment() {
                     is ResultState.Loading -> {
                     }
                     is ResultState.Error -> {
-                        Toast.makeText(requireContext(), "Pesanan berhasil dibuat.", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(requireContext(), "GAGAL. " + resultState.error, Toast.LENGTH_SHORT).show()
                         viewModel.deleteCart()
                     }
                 }

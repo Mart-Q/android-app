@@ -53,8 +53,8 @@ interface ApiService {
         @Field("id_market") idMarket: Int,
         @Field("biaya_ongkos_kirim") biayaOngkosKirim: Int,
         @Field("total_harga") totalHarga: Int,
-        @Field("status") status: String = "Menghubungi pihak pasar",
-        @Field("produk") products: List<String>,
+        @Field("status") status: String,
+        @Field("produk") products: String,
     ): PostOrderResponse
 
     @GET("recommender")

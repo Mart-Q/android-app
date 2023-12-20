@@ -140,38 +140,8 @@
                         android:text="@string/placeholder_recipe_name"
                         android:textSize="16dp"
                         app:layout_constraintStart_toEndOf="@id/iv_daily_recipe"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <TextView
-                        android:id="@+id/tv_daily_recom_recipe_calories"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/placeholder_recipe_calories"
-                        android:textColor="@color/purple"
-                        android:textSize="14sp"
-                        app:layout_constraintStart_toStartOf="@id/tv_rrecipe_name"
-                        app:layout_constraintTop_toBottomOf="@id/tv_rrecipe_name" />
-
-                    <ImageView
-                        android:id="@+id/dot"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="6dp"
-                        android:src="@drawable/dot"
-                        app:layout_constraintBottom_toBottomOf="@id/tv_daily_recom_recipe_calories"
-                        app:layout_constraintStart_toEndOf="@id/tv_daily_recom_recipe_calories"
-                        app:layout_constraintTop_toTopOf="@id/tv_daily_recom_recipe_calories" />
-
-                    <TextView
-                        android:id="@+id/tv_daily_recom_recipe_cooking_time"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="6dp"
-                        android:text="@string/placeholder_recipe_cooking_time"
-                        android:textColor="@color/purple"
-                        android:textSize="14sp"
-                        app:layout_constraintStart_toEndOf="@id/dot"
-                        app:layout_constraintTop_toBottomOf="@id/tv_rrecipe_name" />
+                        app:layout_constraintTop_toTopOf="@id/iv_daily_recipe"
+                        app:layout_constraintBottom_toBottomOf="@id/iv_daily_recipe" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </com.google.android.material.card.MaterialCardView>

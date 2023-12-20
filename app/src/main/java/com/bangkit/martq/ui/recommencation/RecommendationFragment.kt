@@ -1,5 +1,6 @@
 package com.bangkit.martq.ui.recommencation
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -10,6 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.bangkit.martq.databinding.FragmentRecommendationBinding
 import com.bangkit.martq.factory.ViewModelFactory
 import com.bangkit.martq.paging.recipe.ListRecipeAdapter
+import com.bangkit.martq.ui.recipe.RecipeActivity
 import com.bangkit.martq.utils.ResultState
 import com.google.android.material.chip.Chip
 
@@ -87,8 +89,14 @@ class RecommendationFragment : Fragment() {
 
         adapter.setOnItemClickCallback(object : ListRecipeAdapter.OnItemClickCallback {
             override fun onItemClicked(recipe: String) {
+                val intent = Intent(requireContext(), RecipeActivity::class.java)
+                intent.putExtra(EXTRA_RECIPE, recipe)
+                startActivity(intent)
             }
         })
     }
 
+    companion object {
+        private val EXTRA_RECIPE = "extra_recipe"
+    }
 }

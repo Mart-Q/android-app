@@ -19,7 +19,8 @@ class OrderRepository private constructor(
         idMarket: Int,
         biayaOngkosKirim: Int,
         totalHarga: Int,
-        products: List<String>,
+        status: String,
+        products: String,
     ) = apiService.postOrder(
         idUser,
         isDelivery,
@@ -27,7 +28,7 @@ class OrderRepository private constructor(
         idMarket,
         biayaOngkosKirim,
         totalHarga,
-        "Menghubungi pihak pasar",
+        status,
         products
     )
 

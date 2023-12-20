@@ -38,7 +38,7 @@ class ViewModelFactory(
                 HomeViewModel(productRepo, categoryRepo) as T
             }
             modelClass.isAssignableFrom(RecipeViewModel::class.java) -> {
-                RecipeViewModel(productRepo) as T
+                RecipeViewModel(cartRepo) as T
             }
             modelClass.isAssignableFrom(ProductDetailViewModel::class.java) -> {
                 ProductDetailViewModel(productRepo, cartRepo) as T
