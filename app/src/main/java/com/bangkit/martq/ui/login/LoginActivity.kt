@@ -57,7 +57,7 @@ class LoginActivity : AppCompatActivity() {
                         phone = "",
                         address = ""
                     ))
-                finish()
+                Toast.makeText(this, "Yay. Berhasil login.", Toast.LENGTH_SHORT).show()
             } else {
                 Toast.makeText(this, "Mohon isi semua data dulu ya.", Toast.LENGTH_SHORT).show()
             }
