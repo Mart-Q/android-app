@@ -8,6 +8,7 @@ import com.bangkit.martq.R
 import com.bangkit.martq.data.local.room.Cart
 import com.bangkit.martq.databinding.ActivityProductDetailBinding
 import com.bangkit.martq.factory.ViewModelFactory
+import com.bangkit.martq.utils.ResultState
 import com.bumptech.glide.Glide
 
 class ProductDetailActivity : AppCompatActivity() {
@@ -31,27 +32,44 @@ class ProductDetailActivity : AppCompatActivity() {
 
     private fun setupView(productId: Int) {
 
-        viewModel.isLoading.observe(this) {
-            binding.progressBar.visibility = if (it) android.view.View.VISIBLE else android.view.View.GONE
-        }
+        var mToastAddToCart: Toast? = null
+        var productImage: String? = null
 
-        viewModel.getProduct(productId)
+        viewModel.getProduct(productId).observe(this) { resultState ->
+            when (resultState) {
+                is ResultState.Success -> {
+                    binding.progressBar.visibility = android.view.View.GONE
 
-        viewModel.product.observe(this) {
+                    Glide.with(this)
+                        .load(resultState.data.produk?.imageURL)
+                        .placeholder(R.drawable.baseline_broken_image_24)
+                        .error(R.drawable.baseline_broken_image_24)
+                        .into(binding.ivProduct)
 
-            Glide.with(this)
-                .load(it.produk?.imageURL)
-                .placeholder(R.drawable.baseline_broken_image_24)
-                .error(R.drawable.baseline_broken_image_24)
-                .into(binding.ivProduct)
+                    with(binding) {
+                        tvProductName.text = resultState.data.produk?.namaProduk
+                        tvPrice.text = resultState.data.produk?.harga.toString()
+                    }
 
-            with(binding) {
-                tvProductName.text = it.produk?.namaProduk
-                tvPrice.text = it.produk?.harga.toString()
+                    productImage = resultState.data.produk?.imageURL.toString()
+
+                    binding.btnAddToCart.isEnabled = true
+                }
+                is ResultState.Loading -> {
+                    binding.progressBar.visibility = android.view.View.VISIBLE
+                    binding.btnAddToCart.isEnabled = false
+                }
+                is ResultState.Error -> {
+                    binding.progressBar.visibility = android.view.View.GONE
+                    binding.btnAddToCart.isEnabled = false
+
+                    Toast.makeText(this, resultState.error, Toast.LENGTH_SHORT).show()
+                }
             }
         }
 
         binding.btnBack.setOnClickListener {
+            mToastAddToCart?.cancel()
             finish()
         }
 
@@ -70,19 +88,19 @@ class ProductDetailActivity : AppCompatActivity() {
         binding.btnAddToCart.setOnClickListener {
             val productName = binding.tvProductName.text.toString()
             val productPrice = binding.tvPrice.text.toString()
-            val productImage = viewModel.product.value?.produk?.imageURL.toString()
             val productQuantity = binding.tvQuantity.text.toString()
 
             val product = Cart(
                 productName = productName,
                 price = productPrice.toInt(),
-                image = productImage,
+                image = productImage ?: "",
                 quantity = productQuantity.toInt(),
             )
 
             viewModel.addToCart(product)
 
-            Toast.makeText(this, "$productName telah ditambahkan ke keranjang", Toast.LENGTH_SHORT).show()
+            mToastAddToCart = Toast.makeText(this, "Berhasil ditambahkan ke keranjang", Toast.LENGTH_SHORT)
+            mToastAddToCart?.show()
         }
     }
 }

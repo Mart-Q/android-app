@@ -1,32 +1,22 @@
 package com.bangkit.martq.ui.productDetail
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.liveData
 import com.bangkit.martq.data.local.room.Cart
-import com.bangkit.martq.data.remote.response.ProductDetailResponse
 import com.bangkit.martq.repository.CartRepository
 import com.bangkit.martq.repository.ProductRepository
-import kotlinx.coroutines.launch
+import com.bangkit.martq.utils.ResultState
+import kotlinx.coroutines.Dispatchers
 
 class ProductDetailViewModel(private val productRepo: ProductRepository, private val cartRepo: CartRepository) : ViewModel() {
 
-    private val _isLoading = MutableLiveData<Boolean>()
-    val isLoading: LiveData<Boolean> = _isLoading
-
-    private val _product = MutableLiveData<ProductDetailResponse>()
-    val product: LiveData<ProductDetailResponse> get() = _product
-
-    fun getProduct(id: Int) {
-        viewModelScope.launch {
-            _isLoading.value = true
-            try {
-                _product.value = productRepo.getProductById(id)
-                _isLoading.value = false
-            } catch (e: Exception) {
-                _isLoading.value = false
-            }
+    fun getProduct(id: Int) = liveData(Dispatchers.IO) {
+        emit(ResultState.Loading)
+        try {
+            emit(
+                ResultState.Success(data = productRepo.getProductById(id)))
+        } catch (e: Exception) {
+            emit(ResultState.Error(error = e.message ?: "Error Occurred!"))
         }
     }
 

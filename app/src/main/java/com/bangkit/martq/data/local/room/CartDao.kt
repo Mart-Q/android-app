@@ -25,6 +25,9 @@ interface CartDao {
     @Delete
     fun delete(cart: Cart)
 
+    @Query("DELETE FROM cart")
+    fun deleteAll()
+
     @Query("SELECT * from cart ORDER BY id ASC")
     fun getCartItems(): LiveData<List<Cart>>
 }

@@ -8,6 +8,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.bangkit.martq.data.local.datastore.UserModel
 import com.bangkit.martq.data.local.room.Cart
 import com.bangkit.martq.data.model.ProductOrder
 import com.bangkit.martq.data.remote.response.PesananItem
@@ -19,6 +20,7 @@ import com.bangkit.martq.paging.carts.ListCartAdapter
 import com.bangkit.martq.paging.orderReview.ListOrderReviewAdapter
 import com.bangkit.martq.utils.ResultState
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import java.util.Collections
 
 class OrderFragment : Fragment() {
 
@@ -43,7 +45,7 @@ class OrderFragment : Fragment() {
         _binding = FragmentOrderBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        viewModel.getOrderHistory(2).observe(requireActivity()) { resultState ->
+        viewModel.getOrderHistory(7).observe(requireActivity()) { resultState ->
             when (resultState) {
                 is ResultState.Success -> {
                     if (resultState.data.pesanan!!.isNotEmpty()) {
@@ -70,7 +72,7 @@ class OrderFragment : Fragment() {
         with(binding) {
             sectionCart.btnDelivery.setOnClickListener {
                 Toast.makeText(requireContext(),
-                    "Ups! Mohon maaf untuk saat ini kami belum menyediakan jasa deliver ya :(",
+                    "Ups! Mohon maaf untuk saat ini kami belum menyediakan jasa delivery :(",
                     Toast.LENGTH_SHORT).show()
             }
         }
@@ -80,8 +82,8 @@ class OrderFragment : Fragment() {
         with(binding) {
             sectionOrderStatus.root.visibility = View.VISIBLE
 
-            sectionOrderStatus.tvStatus.text = orderHistories[0]?.statusPembayaran
-            sectionOrderStatus.tvOrderPrice.text = orderHistories[0]?.totalHarga.toString()
+            sectionOrderStatus.tvStatus.text = orderHistories[orderHistories.size - 1]?.status
+            sectionOrderStatus.tvOrderPrice.text = orderHistories[orderHistories.size - 1]?.totalHarga.toString()
         }
     }
 
@@ -93,7 +95,21 @@ class OrderFragment : Fragment() {
 
     private fun updateList() {
         viewModel.products.observe(requireActivity()) { product ->
-            setProducts(product)
+            if (product.isNotEmpty()) {
+                with(binding.sectionCart) {
+                    rvCartList.visibility = View.VISIBLE
+                    btnCheckout.visibility = View.VISIBLE
+                    emptyState.visibility = View.INVISIBLE
+                }
+
+                setProducts(product)
+            } else {
+                with(binding.sectionCart) {
+                    rvCartList.visibility = View.INVISIBLE
+                    btnCheckout.visibility = View.INVISIBLE
+                    emptyState.visibility = View.VISIBLE
+                }
+            }
         }
     }
 
@@ -131,14 +147,17 @@ class OrderFragment : Fragment() {
         layoutManager2.orientation = LinearLayoutManager.VERTICAL
         orderReviewBinding.rvProductOrder.layoutManager = layoutManager2
 
+        val productsOrder = mutableListOf<ProductOrder>()
+        val productsName = mutableListOf<String>()
+
         viewModel.products.observe(requireActivity()) { products ->
 
-            val productsOrder = mutableListOf<ProductOrder>()
             var totalPrice = 0
 
             for (i in products) {
                 val productOrder = ProductOrder(i.productName, i.price, i.quantity, i.price * i.quantity)
                 productsOrder.add(productOrder)
+                productsName.add(i.productName)
 
                 totalPrice += i.price * i.quantity
             }
@@ -151,40 +170,67 @@ class OrderFragment : Fragment() {
         }
 
         orderReviewBinding.btnNext.setOnClickListener {
-            val totalHarga = orderReviewBinding.tvTotalPriceValue.text.toString().toInt()
-            // TODO: waiting API
-            val products = listOf(4, 4)
-            setupCompleteData(products, totalHarga)
+            viewModel.getSession().observe(requireActivity()) { user ->
+                if (user.email != "") {
+                    val totalHarga = orderReviewBinding.tvTotalPriceValue.text.toString().toInt()
+                    val userCreds = UserModel(
+                        user.email,
+                        user.name,
+                        user.phone,
+                        user.address,
+                    )
+
+                    setupCompleteData(
+                        Collections.unmodifiableList(productsName),
+                        totalHarga,
+                        userCreds
+                    )
+                } else {
+                    bottomSheetDialog.dismiss()
+
+                    Toast.makeText(requireContext(),
+                        "Demi menjaga keamanan, mohon untuk login terlebih dahulu sebelum memesan :)",
+                        Toast.LENGTH_LONG).show()
+                }
+            }
+
         }
     }
 
-    fun setupCompleteData(products: List<Int>, totalPrice: Int) {
+    fun setupCompleteData(products: List<String>, totalPrice: Int, UserCreds: UserModel) {
 
         bottomSheetDialog.setContentView(completeDataBinding.root)
 
-        viewModel.getUserPhone().observe(requireActivity()) { phone ->
-            completeDataBinding.etPhoneNumber.setText(phone)
-        }
+        completeDataBinding.tvAddressValue.text = UserCreds.address
+        completeDataBinding.etPhoneNumber.setText(UserCreds.phone)
+        completeDataBinding.etName.setText(UserCreds.name)
 
         completeDataBinding.btnMakeOrder.setOnClickListener {
             viewModel.makeOrder(
-                2,
+                7,
                 "false",
-                null,
+                2,
                 1,
                 7000,
                 totalPrice,
                 products
-            )
+            ).observe(requireActivity()) { resultState ->
+                when (resultState) {
+                    is ResultState.Success -> {
+                        viewModel.deleteCart()
+                        Toast.makeText(requireContext(), "Yay! Berhasil membuat pesanan.", Toast.LENGTH_SHORT).show()
+                    }
+                    is ResultState.Loading -> {
+                    }
+                    is ResultState.Error -> {
+                        Toast.makeText(requireContext(), "Pesanan berhasil dibuat.", Toast.LENGTH_SHORT).show()
+                        viewModel.deleteCart()
+                    }
+                }
+            }
 
             bottomSheetDialog.dismiss()
-
-            Toast.makeText(requireContext(), "Yay! Berhasil membuat pesanan.", Toast.LENGTH_SHORT).show()
         }
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
 }
